@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Казанцев](https://up.htmlacademy.ru/ecmascript/6/user/24186).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Эмрих](https://up.htmlacademy.ru/ecmascript/6/user/129463).
 
 ---
 
