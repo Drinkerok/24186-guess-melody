@@ -68,6 +68,7 @@ const formEl = screenEl.querySelector(`.game__artist`);
 const nextPages = [screenSuccess, screenFailTime, screenFailTries];
 
 formEl.onchange = () => {
+  formEl.reset();
   changePage(nextPages[getRandomInteger(0, nextPages.length - 1)]);
 };
 

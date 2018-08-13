@@ -93,6 +93,7 @@ formEl.onchange = () => {
 
 formEl.onsubmit = (evt) => {
   evt.preventDefault();
+  formEl.reset();
   changePage(screenGameArtist);
 };
 
