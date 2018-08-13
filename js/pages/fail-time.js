@@ -1,12 +1,18 @@
 // Результат игры: проигрыш, время вышло
 
-import {getElementFromTemplate, changePage} from './utils.js';
+import {getElementFromTemplate, changePage} from './../utils.js';
+import screenWelcome from './welcome.js';
 
-const page = getElementFromTemplate(`<section class="result">
+const screenEl = getElementFromTemplate(`<section class="result">
     <div class="result__logo"><img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83"></div>
     <h2 class="result__title">Увы и ах!</h2>
     <p class="result__total result__total--fail">Время вышло! Вы не успели отгадать все мелодии</p>
     <button class="result__replay" type="button">Попробовать ещё раз</button>
   </section>`);
 
-export default () => changePage(page);
+const againButtonEl = screenEl.querySelector(`.result__replay`);
+againButtonEl.onclick = () => {
+  changePage(screenWelcome);
+};
+
+export default screenEl;

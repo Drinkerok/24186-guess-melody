@@ -1,9 +1,9 @@
 // Игра на выбор жанра
 
-import {getElementFromTemplate, changePage, initBackLink} from './utils.js';
-import showGameArtistPage from './game-artist.js';
+import {getElementFromTemplate, changePage} from './../utils.js';
+import screenGameArtist from './game-artist.js';
 
-const page = getElementFromTemplate(`<section class="game game--genre">
+const screenEl = getElementFromTemplate(`<section class="game game--genre">
     <header class="game__header">
       <a class="game__back" href="#">
         <span class="visually-hidden">Сыграть ещё раз</span>
@@ -79,25 +79,22 @@ const page = getElementFromTemplate(`<section class="game game--genre">
       </form>
     </section>
   </section>`);
-initBackLink(page);
 
 
-const form = page.querySelector(`.game__tracks`);
-const submit = form.querySelector(`.game__submit`);
+const formEl = screenEl.querySelector(`.game__tracks`);
+const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));
+const submitEl = formEl.querySelector(`.game__submit`);
 
-const answers = Array.from(form.querySelectorAll(`.game__input`));
-answers.forEach((answer) => {
-  answer.onchange = () => {
-    submit.disabled = false;
-  };
-});
+submitEl.disabled = true;
 
-form.onsubmit = (e) => {
-  e.preventDefault();
-  if (!submit.disabled) {
-    showGameArtistPage();
-  }
+formEl.onchange = () => {
+  submitEl.disabled = !inputsEl.some((input) => input.checked);
 };
-submit.disabled = true;
 
-export default () => changePage(page);
+formEl.onsubmit = (evt) => {
+  evt.preventDefault();
+  changePage(screenGameArtist);
+};
+
+
+export default screenEl;

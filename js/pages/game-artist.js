@@ -1,9 +1,11 @@
 // Игра на выбор исполнителя
 
-import {getElementFromTemplate, changePage, initBackLink} from './utils.js';
-import showResultSuccess from './result-success.js';
+import {getElementFromTemplate, changePage} from './../utils.js';
+import screenSuccess from './result-success.js';
+import screenFailTime from './fail-time.js';
+import screenFailTries from './fail-tries.js';
 
-const page = getElementFromTemplate(`<section class="game game--artist">
+const screenEl = getElementFromTemplate(`<section class="game game--artist">
     <header class="game__header">
       <a class="game__back" href="#">
         <span class="visually-hidden">Сыграть ещё раз</span>
@@ -61,11 +63,16 @@ const page = getElementFromTemplate(`<section class="game game--artist">
       </form>
     </section>
   </section>`);
-initBackLink(page);
 
-const answers = Array.from(page.querySelectorAll(`.artist__input`));
-answers.forEach((answer) => {
-  answer.onchange = showResultSuccess;
-});
+const formEl = screenEl.querySelector(`.game__artist`);
+const nextPages = [screenSuccess, screenFailTime, screenFailTries];
 
-export default () => changePage(page);
+formEl.onchange = () => {
+  changePage(nextPages[getRandomInteger(0, nextPages.length - 1)]);
+};
+
+function getRandomInteger(min = 0, max = 1) {
+  return Math.floor(min + Math.random() * (max + 1 - min));
+}
+
+export default screenEl;

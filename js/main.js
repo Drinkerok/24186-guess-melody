@@ -1,3 +1,5 @@
-import showWelcomePage from './modules/welcome.js';
+import pageWelcome from './pages/welcome.js';
+import {changePage} from './utils.js';
 
-showWelcomePage();
+
+changePage(pageWelcome);
