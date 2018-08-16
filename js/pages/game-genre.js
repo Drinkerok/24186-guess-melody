@@ -94,6 +94,7 @@ formEl.onchange = () => {
 formEl.onsubmit = (evt) => {
   evt.preventDefault();
   formEl.reset();
+  submitEl.disabled = true;
   changePage(screenGameArtist);
 };
 
