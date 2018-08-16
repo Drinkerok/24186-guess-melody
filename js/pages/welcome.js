@@ -1,6 +1,6 @@
 // Приветствие
 
-import {getElementFromTemplate, changePage} from './../utils.js';
+import {getElementFromTemplate, changeScreen} from './../utils.js';
 import screenGameGenre from './game-genre.js';
 
 
@@ -18,7 +18,7 @@ const screenEl = getElementFromTemplate(`<section class="welcome">
 
 const buttonStart = screenEl.querySelector(`.welcome__button`);
 buttonStart.onclick = () => {
-  changePage(screenGameGenre);
+  changeScreen(screenGameGenre);
 };
 
 

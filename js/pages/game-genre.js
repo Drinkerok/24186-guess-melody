@@ -1,7 +1,8 @@
 // Игра на выбор жанра
 
-import {getElementFromTemplate, changePage} from './../utils.js';
+import {getElementFromTemplate, changeScreen} from './../utils.js';
 import screenGameArtist from './game-artist.js';
+import screenWelcome from './welcome.js';
 
 const screenEl = getElementFromTemplate(`<section class="game game--genre">
     <header class="game__header">
@@ -84,8 +85,14 @@ const screenEl = getElementFromTemplate(`<section class="game game--genre">
 const formEl = screenEl.querySelector(`.game__tracks`);
 const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));
 const submitEl = formEl.querySelector(`.game__submit`);
+const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
 submitEl.disabled = true;
+
+function resetForm() {
+  formEl.reset();
+  submitEl.disabled = true;
+}
 
 formEl.onchange = () => {
   submitEl.disabled = !inputsEl.some((input) => input.checked);
@@ -93,9 +100,14 @@ formEl.onchange = () => {
 
 formEl.onsubmit = (evt) => {
   evt.preventDefault();
-  formEl.reset();
-  submitEl.disabled = true;
-  changePage(screenGameArtist);
+  changeScreen(screenGameArtist);
+  resetForm();
+};
+
+toMainScreenEl.onclick = (evt) => {
+  evt.preventDefault();
+  changeScreen(screenWelcome);
+  resetForm();
 };
 
 

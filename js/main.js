@@ -1,5 +1,5 @@
-import pageWelcome from './pages/welcome.js';
-import {changePage} from './utils.js';
+import screenWelcome from './pages/welcome.js';
+import {changeScreen} from './utils.js';
 
 
-changePage(pageWelcome);
+changeScreen(screenWelcome);

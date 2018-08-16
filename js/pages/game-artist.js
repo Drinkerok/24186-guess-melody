@@ -1,9 +1,10 @@
 // Игра на выбор исполнителя
 
-import {getElementFromTemplate, changePage} from './../utils.js';
+import {getElementFromTemplate, changeScreen} from './../utils.js';
 import screenSuccess from './result-success.js';
 import screenFailTime from './fail-time.js';
 import screenFailTries from './fail-tries.js';
+import screenWelcome from './welcome.js';
 
 const screenEl = getElementFromTemplate(`<section class="game game--artist">
     <header class="game__header">
@@ -66,14 +67,20 @@ const screenEl = getElementFromTemplate(`<section class="game game--artist">
 
 const formEl = screenEl.querySelector(`.game__artist`);
 const nextPages = [screenSuccess, screenFailTime, screenFailTries];
+const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
 formEl.onchange = () => {
   formEl.reset();
-  changePage(nextPages[getRandomInteger(0, nextPages.length - 1)]);
+  changeScreen(nextPages[getRandomInteger(0, nextPages.length - 1)]);
 };
 
 function getRandomInteger(min = 0, max = 1) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 }
+
+toMainScreenEl.onclick = (evt) => {
+  evt.preventDefault();
+  changeScreen(screenWelcome);
+};
 
 export default screenEl;

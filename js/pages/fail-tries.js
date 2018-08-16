@@ -1,6 +1,6 @@
 // Результат игры: проигрыш, закончились попытки
 
-import {getElementFromTemplate, changePage} from './../utils.js';
+import {getElementFromTemplate, changeScreen} from './../utils.js';
 import screenWelcome from './welcome.js';
 
 const screenEl = getElementFromTemplate(`<section class="result">
@@ -12,7 +12,7 @@ const screenEl = getElementFromTemplate(`<section class="result">
 
 const againButtonEl = screenEl.querySelector(`.result__replay`);
 againButtonEl.onclick = () => {
-  changePage(screenWelcome);
+  changeScreen(screenWelcome);
 };
 
 export default screenEl;

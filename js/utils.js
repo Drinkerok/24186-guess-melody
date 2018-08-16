@@ -7,10 +7,10 @@ function getElementFromTemplate(template = ``) {
 
 
 const wrapper = document.querySelector(`section.main`);
-function changePage(page) {
+function changeScreen(page) {
   wrapper.innerHTML = ``;
   wrapper.appendChild(page);
 }
 
 
-export {getElementFromTemplate, changePage};
+export {getElementFromTemplate, changeScreen};
