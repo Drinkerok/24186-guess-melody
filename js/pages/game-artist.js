@@ -1,6 +1,6 @@
 // Игра на выбор исполнителя
 
-import {getElementFromTemplate, changeScreen} from './../utils.js';
+import {getElementFromTemplate, changeScreen, getRandomInteger} from './../utils.js';
 import screenSuccess from './result-success.js';
 import screenFailTime from './fail-time.js';
 import screenFailTries from './fail-tries.js';
@@ -73,10 +73,6 @@ formEl.onchange = () => {
   formEl.reset();
   changeScreen(nextPages[getRandomInteger(0, nextPages.length - 1)]);
 };
-
-function getRandomInteger(min = 0, max = 1) {
-  return Math.floor(min + Math.random() * (max + 1 - min));
-}
 
 toMainScreenEl.onclick = (evt) => {
   evt.preventDefault();
