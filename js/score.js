@@ -1,22 +1,31 @@
-const scorePenalty = 2;
-const answerFastTime = 30;
-const scoreFastRight = 2;
+const ANSWER_FAST_TIME = 30;
+const SCORE_PENALTY = 2;
+const SCORE_RIGHT = 1;
+const SCORE_FAST_RIGHT = 2;
+
+const ERROR_CODE = -1;
 
 
 export function getScore(answers) {
-  let score = 0;
-
-  if (answers.length < 10 || !Array.isArray(answers)) {
-    return -1;
+  if (answers.length < 10) {
+    return ERROR_CODE;
   }
+
+  let score = 0;
+  let fails = 0;
 
   answers.forEach((answer) => {
     if (answer.result) {
-      score = answer.time < answerFastTime ? score + scoreFastRight : score + 1;
+      score += answer.time < ANSWER_FAST_TIME ? SCORE_FAST_RIGHT : SCORE_RIGHT;
     } else {
-      score -= scorePenalty;
+      fails++;
+      score -= SCORE_PENALTY;
     }
   });
+
+  if (fails >= 3) {
+    return ERROR_CODE;
+  }
 
   return score;
 }
