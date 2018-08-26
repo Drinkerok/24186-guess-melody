@@ -1,7 +1,9 @@
 const ANSWER_FAST_TIME = 30;
-const SCORE_PENALTY = 2;
-const SCORE_RIGHT = 1;
-const SCORE_FAST_RIGHT = 2;
+const Score = {
+  'penalty': 2,
+  'right': 1,
+  'fast': 2,
+};
 
 const ERROR_CODE = -1;
 
@@ -16,10 +18,10 @@ export function getScore(answers) {
 
   answers.forEach((answer) => {
     if (answer.result) {
-      score += answer.time < ANSWER_FAST_TIME ? SCORE_FAST_RIGHT : SCORE_RIGHT;
+      score += answer.time < ANSWER_FAST_TIME ? Score[`fast`] : Score[`right`];
     } else {
       fails++;
-      score -= SCORE_PENALTY;
+      score -= Score[`penalty`];
     }
   });
 

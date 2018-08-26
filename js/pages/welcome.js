@@ -1,8 +1,8 @@
 // Приветствие
 
-import {getElementFromTemplate, changeScreen, wordsDeclension} from './../utils';
-import screenGameGenre from './game-genre';
-import {initialState} from './../data/game-data';
+import game from './../game-controller';
+import setPage from './../page-controller.js';
+import {getElementFromTemplate, wordsDeclension} from './../utils';
 
 
 const screenTemplate = (state) => `<section class="welcome">
@@ -16,11 +16,11 @@ const screenTemplate = (state) => `<section class="welcome">
   </ul>
   <p class="welcome__text">Удачи!</p>
 </section>`;
-const screenEl = getElementFromTemplate(screenTemplate(initialState));
+const screenEl = getElementFromTemplate(screenTemplate(game.data));
 
 const buttonStart = screenEl.querySelector(`.welcome__button`);
 buttonStart.onclick = () => {
-  changeScreen(screenGameGenre);
+  setPage(`game-genre`);
 };
 
 

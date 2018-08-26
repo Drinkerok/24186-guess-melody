@@ -4,7 +4,7 @@ import {wordsDeclension} from './../js/utils';
 const ERROR_CODE = -1;
 
 
-export function getPlayerStatistic(statistics, playerResult) {
+export function getPlayerStatistic(statistics = [4, 5, 8, 10, 11], playerResult) {
   const newStatistics = statistics.slice();
 
   if (playerResult.time === 0) {

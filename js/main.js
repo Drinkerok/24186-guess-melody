@@ -1,5 +1,5 @@
-import screenWelcome from './pages/welcome.js';
-import {changeScreen} from './utils.js';
+import setPage from './page-controller';
+import game from './game-controller';
 
-
-changeScreen(screenWelcome);
+game.new();
+setPage(`welcome`);

@@ -2,21 +2,21 @@ export default {
   genre: `инди-рок`,
   tracks: [
     {
-      id: 1,
+      id: `track-1`,
       audio: `audio1`,
     },
     {
-      id: 2,
+      id: `track-2`,
       audio: `audio2`,
     },
     {
-      id: 3,
+      id: `track-3`,
       audio: `audio3`,
     },
     {
-      id: 4,
+      id: `track-4`,
       audio: `audio4`,
     },
   ],
-  answers: [1, 3],
-}
+  answers: [`track-1`, `track-3`],
+};

@@ -1,40 +1,40 @@
 // Игра на выбор жанра
 
-import {getElementFromTemplate, changeScreen} from './../utils.js';
+import game from './../game-controller';
+import setPage from './../page-controller.js';
+import {getElementFromTemplate} from './../utils.js';
 import {initialState} from './../data/game-data';
 import task from './../data/genre-data';
 import {headerTemplate} from './header';
-import screenGameArtist from './game-artist';
-import screenWelcome from './welcome';
 
 const getAnswersTemplate = (tracks) => {
-  return tracks.map((answer, i) => `
+  return tracks.map((track) => `
     <div class="track">
       <button class="track__button track__button--play" type="button"></button>
       <div class="track__status">
         <audio></audio>
       </div>
       <div class="game__answer">
-        <input class="game__input visually-hidden" type="checkbox" name="answer" value="answer-${i}" id="answer-${i}">
-        <label class="game__check" for="answer-${i}">Отметить</label>
+        <input class="game__input visually-hidden" type="checkbox" name="answer" value="${track.id}" id="${track.id}">
+        <label class="game__check" for="${track.id}">Отметить</label>
       </div>
     </div>`)
   .join(``);
-}
+};
 
-const gameGenreTemplate = (task) => `
+const gameGenreTemplate = (taskItem) => `
   <section class="game game--genre">
     ${headerTemplate(initialState)}
     <section class="game__screen">
-      <h2 class="game__title">Выберите ${task.genre} треки</h2>
+      <h2 class="game__title">Выберите ${taskItem.genre} треки</h2>
       <form class="game__tracks">
-        ${getAnswersTemplate(task.tracks)}
+        ${getAnswersTemplate(taskItem.tracks)}
         <button class="game__submit button" type="submit">Ответить</button>
       </form>
     </section>
   </section>`;
 
-const screenEl = getElementFromTemplate(gameGenreTemplate({genre: `инди-рок`, tracks: new Array(4).fill(0)}));
+const screenEl = getElementFromTemplate(gameGenreTemplate(task));
 
 
 const formEl = screenEl.querySelector(`.game__tracks`);
@@ -55,15 +55,33 @@ formEl.onchange = () => {
 
 formEl.onsubmit = (evt) => {
   evt.preventDefault();
-  changeScreen(screenGameArtist);
+  addAnswer();
   resetForm();
 };
 
 toMainScreenEl.onclick = (evt) => {
   evt.preventDefault();
-  changeScreen(screenWelcome);
+  setPage(`welcome`);
   resetForm();
 };
+
+
+function addAnswer() {
+  const playerAnswersEl = inputsEl.filter((input) => input.checked);
+
+  if (playerAnswersEl.length !== task.answers.length) {
+    game.addAnswer({
+      right: false,
+      time: 40
+    });
+    return;
+  }
+
+  game.addAnswer({
+    right: playerAnswersEl.every((input) => task.answers.indexOf(input.id) !== -1),
+    time: 40
+  });
+}
 
 
 export default screenEl;

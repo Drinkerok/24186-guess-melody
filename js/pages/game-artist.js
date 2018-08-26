@@ -1,27 +1,25 @@
 // Игра на выбор исполнителя
 
-import {getElementFromTemplate, changeScreen, getRandomInteger} from './../utils.js';
+import game from './../game-controller';
+import setPage from './../page-controller.js';
+import {getElementFromTemplate} from './../utils.js';
 import {initialState} from './../data/game-data';
 import task from './../data/artist-data.js';
 import {headerTemplate} from './header';
-import screenSuccess from './result-success.js';
-import screenFailTime from './fail-time.js';
-import screenFailTries from './fail-tries.js';
-import screenWelcome from './welcome.js';
 
 const getArtistsTemplate = (artists) => {
-  return artists.map((artist, i) => `
+  return artists.map((artist) => `
     <div class="artist">
-      <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-${i}" id="answer-${i}">
-      <label class="artist__name" for="answer-${i}">
-        <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-        Пелагея
+      <input class="artist__input visually-hidden" type="radio" name="answer" value="${artist.id}" id="${artist.id}">
+      <label class="artist__name" for="${artist.id}">
+        <img class="artist__picture" src="${artist.img}" alt="${artist.name}">
+        ${artist.name}
       </label>
     </div>`)
   .join(``);
-}
+};
 
-const gameArtistTemplate = (task) => `<section class="game game--artist">
+const gameArtistTemplate = (taskItem) => `<section class="game game--artist">
   ${headerTemplate(initialState)}
 
   <section class="game__screen">
@@ -32,24 +30,26 @@ const gameArtistTemplate = (task) => `<section class="game game--artist">
     </div>
 
     <form class="game__artist">
-      ${getArtistsTemplate(task.artists)}
+      ${getArtistsTemplate(taskItem.artists)}
     </form>
   </section>
 </section>`;
 const screenEl = getElementFromTemplate(gameArtistTemplate(task));
 
 const formEl = screenEl.querySelector(`.game__artist`);
-const nextPages = [screenSuccess, screenFailTime, screenFailTries];
 const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
 formEl.onchange = () => {
+  game.addAnswer({
+    right: formEl.answer.value === task.answer,
+    time: 40
+  });
   formEl.reset();
-  changeScreen(nextPages[getRandomInteger(0, nextPages.length - 1)]);
 };
 
 toMainScreenEl.onclick = (evt) => {
   evt.preventDefault();
-  changeScreen(screenWelcome);
+  setPage(`welcome`);
 };
 
 export default screenEl;

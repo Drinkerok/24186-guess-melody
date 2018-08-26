@@ -1,7 +1,7 @@
 // Результат игры: выигрыш
 
-import {getElementFromTemplate, changeScreen} from './../utils.js';
-import screenWelcome from './welcome.js';
+import setPage from './../page-controller.js';
+import {getElementFromTemplate} from './../utils.js';
 
 const screenEl = getElementFromTemplate(`<section class="result">
   <div class="result__logo"><img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83"></div>
@@ -13,7 +13,7 @@ const screenEl = getElementFromTemplate(`<section class="result">
 
 const againButtonEl = screenEl.querySelector(`.result__replay`);
 againButtonEl.onclick = () => {
-  changeScreen(screenWelcome);
+  setPage(`welcome`);
 };
 
 export default screenEl;
