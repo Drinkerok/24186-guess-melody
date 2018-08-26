@@ -1,40 +1,41 @@
 // Игра на выбор жанра
 
-import game from './../game-controller';
-import setPage from './../page-controller.js';
-import {getElementFromTemplate} from './../utils.js';
-import {initialState} from './../data/game-data';
-import task from './../data/genre-data';
-import {headerTemplate} from './header';
+import {getElementFromTemplate, changeScreen} from './../utils';
+import renderHeader from './header';
+import screenGameArtist from './game-artist';
+import screenWelcome from './welcome';
+import {questionGenre} from './../data/questions';
 
-const getAnswersTemplate = (tracks) => {
-  return tracks.map((track) => `
+const renderTracks = (tracks) => {
+  return tracks.map((track, i) => `
     <div class="track">
       <button class="track__button track__button--play" type="button"></button>
       <div class="track__status">
-        <audio></audio>
+        <audio src="${track.src}"></audio>
       </div>
       <div class="game__answer">
-        <input class="game__input visually-hidden" type="checkbox" name="answer" value="${track.id}" id="${track.id}">
-        <label class="game__check" for="${track.id}">Отметить</label>
+        <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
+        <label class="game__check" for="answer-${i}">Отметить</label>
       </div>
     </div>`)
-  .join(``);
+    .join(``);
 };
 
-const gameGenreTemplate = (taskItem) => `
+const screenTemplate = (data) => getElementFromTemplate(`
   <section class="game game--genre">
-    ${headerTemplate(initialState)}
+    ${renderHeader({lives: 2})}
+
     <section class="game__screen">
-      <h2 class="game__title">Выберите ${taskItem.genre} треки</h2>
+      <h2 class="game__title">Выберите ${data.genre} треки</h2>
       <form class="game__tracks">
-        ${getAnswersTemplate(taskItem.tracks)}
+        ${renderTracks(data.tracks)}
         <button class="game__submit button" type="submit">Ответить</button>
       </form>
     </section>
-  </section>`;
+  </section>
+`);
 
-const screenEl = getElementFromTemplate(gameGenreTemplate(task));
+const screenEl = screenTemplate(questionGenre);
 
 
 const formEl = screenEl.querySelector(`.game__tracks`);
@@ -55,33 +56,15 @@ formEl.onchange = () => {
 
 formEl.onsubmit = (evt) => {
   evt.preventDefault();
-  addAnswer();
+  changeScreen(screenGameArtist);
   resetForm();
 };
 
 toMainScreenEl.onclick = (evt) => {
   evt.preventDefault();
-  setPage(`welcome`);
+  changeScreen(screenWelcome);
   resetForm();
 };
-
-
-function addAnswer() {
-  const playerAnswersEl = inputsEl.filter((input) => input.checked);
-
-  if (playerAnswersEl.length !== task.answers.length) {
-    game.addAnswer({
-      right: false,
-      time: 40
-    });
-    return;
-  }
-
-  game.addAnswer({
-    right: playerAnswersEl.every((input) => task.answers.indexOf(input.id) !== -1),
-    time: 40
-  });
-}
 
 
 export default screenEl;

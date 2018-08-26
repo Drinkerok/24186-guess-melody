@@ -1,4 +1,7 @@
-export const headerTemplate = (state) => `
+import {InitialGame} from './../variables';
+
+
+export default (data) => `
   <header class="game__header">
     <a class="game__back" href="#">
       <span class="visually-hidden">Сыграть ещё раз</span>
@@ -11,13 +14,13 @@ export const headerTemplate = (state) => `
     </svg>
 
     <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-      <span class="timer__mins">${~~(state.time / 60)}</span>
+      <span class="timer__mins">05</span>
       <span class="timer__dots">:</span>
-      <span class="timer__secs">${state.time % 60}</span>
+      <span class="timer__secs">00</span>
     </div>
 
     <div class="game__mistakes">
-      ${new Array(state.lives)
+      ${new Array(InitialGame.lives - data.lives)
         .fill(`<div class="wrong"></div>`)
         .join(``)}
     </div>
