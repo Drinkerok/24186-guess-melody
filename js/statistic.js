@@ -4,7 +4,7 @@ import {wordsDeclension} from './../js/utils';
 const ERROR_CODE = -1;
 
 
-export function getPlayerStatistic(statistics, playerResult) {
+export default(playerResult, statistics) => {
   const newStatistics = statistics.slice();
 
   if (playerResult.time === 0) {
@@ -26,4 +26,4 @@ export function getPlayerStatistic(statistics, playerResult) {
   const playersWord = wordsDeclension(newStatistics.length, [`игрок`, `игрока`, `игроков`]);
 
   return `Вы заняли ${statisticPosition} место из ${newStatistics.length} ${playersWord}. Это лучше, чем у ${statisticPercents}% игроков`;
-}
+};

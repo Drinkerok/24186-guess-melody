@@ -1,12 +1,7 @@
 // Игра на выбор исполнителя
 
-import {getElementFromTemplate, changeScreen, getRandomInteger} from './../utils';
+import {getElementFromTemplate} from './../utils';
 import renderHeader from './header';
-import screenSuccess from './result-success';
-import screenFailTime from './fail-time';
-import screenFailTries from './fail-tries';
-import screenWelcome from './welcome';
-import {questionArtist} from './../data/questions';
 
 const renderArtists = (artists) => {
   return artists.map((artist, i) => `
@@ -20,37 +15,48 @@ const renderArtists = (artists) => {
     .join(``);
 };
 
-const screenTemplate = (data) => `
+const screenTemplate = (data) => getElementFromTemplate(`
   <section class="game game--artist">
-    ${renderHeader({lives: 2})}
+    ${renderHeader(data.game)}
 
     <section class="game__screen">
       <h2 class="game__title">Кто исполняет эту песню?</h2>
       <div class="game__track">
         <button class="track__button track__button--play" type="button"></button>
-        <audio src="${data.track.src}"></audio>
+        <audio src="${data.question.track.src}"></audio>
       </div>
 
       <form class="game__artist">
-        ${renderArtists(data.artists)}
+        ${renderArtists(data.question.artists)}
       </form>
     </section>
   </section>
-`;
-const screenEl = getElementFromTemplate(screenTemplate(questionArtist));
+`);
 
-const formEl = screenEl.querySelector(`.game__artist`);
-const nextPages = [screenSuccess, screenFailTime, screenFailTries];
-const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
-formEl.onchange = () => {
-  formEl.reset();
-  changeScreen(nextPages[getRandomInteger(0, nextPages.length - 1)]);
+export default (state, question) => {
+  const timeStart = new Date();
+  const screenEl = screenTemplate({
+    game: state.game,
+    question,
+  });
+
+
+  const formEl = screenEl.querySelector(`.game__artist`);
+  const toMainScreenEl = screenEl.querySelector(`.game__logo`);
+
+  formEl.onchange = () => {
+    state.setAnswer({
+      correct: question.artists[formEl.answer.value].name === question.track.artist,
+      time: Math.round((new Date() - timeStart) / 1000)
+    });
+    formEl.reset();
+  };
+
+  toMainScreenEl.onclick = (evt) => {
+    evt.preventDefault();
+    state.renderScreen(`welcome`);
+  };
+
+  return screenEl;
 };
-
-toMainScreenEl.onclick = (evt) => {
-  evt.preventDefault();
-  changeScreen(screenWelcome);
-};
-
-export default screenEl;

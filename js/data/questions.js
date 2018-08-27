@@ -50,8 +50,8 @@ export const questionArtist = {
 const questions = [];
 
 for (let i = 0; i < QUESTIONS_COUNT / 2; i++) {
-  questions.push(questionGenre);
   questions.push(questionArtist);
+  questions.push(questionGenre);
 }
 
 export default questions;

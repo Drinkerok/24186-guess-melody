@@ -1,5 +1,3 @@
-import screenWelcome from './pages/welcome.js';
-import {changeScreen} from './utils.js';
+import state from './state';
 
-
-changeScreen(screenWelcome);
+state.renderScreen(`welcome`);

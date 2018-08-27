@@ -1,11 +1,6 @@
 // Приветствие
 
-import {getElementFromTemplate, changeScreen, wordsDeclension} from './../utils';
-import screenGameGenre from './game-genre';
-import state from './../state';
-
-state.new();
-
+import {getElementFromTemplate, wordsDeclension} from './../utils';
 
 const screenTemplate = (data) => getElementFromTemplate(`
   <section class="welcome">
@@ -19,18 +14,21 @@ const screenTemplate = (data) => getElementFromTemplate(`
     <p class="welcome__text">Правила просты:</p>
     <ul class="welcome__rules-list">
       <li>За ${~~(data.time / 60)} ${wordsDeclension(~~(data.time / 60), [`минуту`, `минуты`, `минут`])} нужно ответить на все вопросы.</li>
-      <li>Можно допустить ${data.lives} ${wordsDeclension(~~(data.time / 60), [`ошибку`, `ошибки`, `ошибок`])}.</li>
+      <li>Можно допустить ${data.lives} ${wordsDeclension(data.lives, [`ошибку`, `ошибки`, `ошибок`])}.</li>
     </ul>
     <p class="welcome__text">Удачи!</p>
   </section>
 `);
 
-const screenEl = screenTemplate(state);
+export default (state) => {
+  state.reset();
 
-const buttonStart = screenEl.querySelector(`.welcome__button`);
-buttonStart.onclick = () => {
-  changeScreen(screenGameGenre);
+  const screenEl = screenTemplate(state.game);
+
+  const buttonStart = screenEl.querySelector(`.welcome__button`);
+  buttonStart.onclick = () => {
+    state.nextQuestion();
+  };
+
+  return screenEl;
 };
-
-
-export default screenEl;

@@ -9,16 +9,17 @@ const Score = {
 const ERROR_CODE = -1;
 
 
-export function getScore(answers) {
+export default(answers) => {
   if (answers.length < 10) {
     return ERROR_CODE;
   }
+
 
   let score = 0;
   let fails = 0;
 
   answers.forEach((answer) => {
-    if (answer.result) {
+    if (answer.correct) {
       score += answer.time < ANSWER_FAST_TIME ? Score.fast : Score.right;
     } else {
       fails++;
@@ -31,4 +32,4 @@ export function getScore(answers) {
   }
 
   return score;
-}
+};

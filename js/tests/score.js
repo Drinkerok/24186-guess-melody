@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {getScore} from './../score';
+import getScore from './../score';
 import {getRandomInteger} from './../utils';
 
 
@@ -10,20 +10,20 @@ function getAnswers(length, rightAnswers, fastAnswers) {
     if (rightAnswers > 0) {
       if (fastAnswers > 0) {
         arr.push({
-          result: true,
+          correct: true,
           time: getRandomInteger(1, 29)
         });
         fastAnswers--;
       } else {
         arr.push({
-          result: true,
+          correct: true,
           time: getRandomInteger(30, 60)
         });
       }
       rightAnswers--;
     } else {
       arr.push({
-        result: false,
+        correct: false,
         time: getRandomInteger(1, 60)
       });
     }

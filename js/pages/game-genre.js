@@ -1,10 +1,7 @@
 // Игра на выбор жанра
 
-import {getElementFromTemplate, changeScreen} from './../utils';
+import {getElementFromTemplate} from './../utils';
 import renderHeader from './header';
-import screenGameArtist from './game-artist';
-import screenWelcome from './welcome';
-import {questionGenre} from './../data/questions';
 
 const renderTracks = (tracks) => {
   return tracks.map((track, i) => `
@@ -21,50 +18,60 @@ const renderTracks = (tracks) => {
     .join(``);
 };
 
+
 const screenTemplate = (data) => getElementFromTemplate(`
   <section class="game game--genre">
-    ${renderHeader({lives: 2})}
+    ${renderHeader(data.game)}
 
     <section class="game__screen">
-      <h2 class="game__title">Выберите ${data.genre} треки</h2>
+      <h2 class="game__title">Выберите ${data.question.genre} треки</h2>
       <form class="game__tracks">
-        ${renderTracks(data.tracks)}
+        ${renderTracks(data.question.tracks)}
         <button class="game__submit button" type="submit">Ответить</button>
       </form>
     </section>
   </section>
 `);
 
-const screenEl = screenTemplate(questionGenre);
 
+export default (state, question) => {
+  const screenEl = screenTemplate({
+    game: state.game,
+    question,
+  });
+  const timeStart = new Date();
 
-const formEl = screenEl.querySelector(`.game__tracks`);
-const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));
-const submitEl = formEl.querySelector(`.game__submit`);
-const toMainScreenEl = screenEl.querySelector(`.game__logo`);
+  const formEl = screenEl.querySelector(`.game__tracks`);
+  const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));
+  const submitEl = formEl.querySelector(`.game__submit`);
+  const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
-submitEl.disabled = true;
-
-function resetForm() {
-  formEl.reset();
   submitEl.disabled = true;
-}
 
-formEl.onchange = () => {
-  submitEl.disabled = !inputsEl.some((input) => input.checked);
+  function resetForm() {
+    formEl.reset();
+    submitEl.disabled = true;
+  }
+
+  formEl.onchange = () => {
+    submitEl.disabled = !inputsEl.some((input) => input.checked);
+  };
+
+  formEl.onsubmit = (evt) => {
+    evt.preventDefault();
+    const selectedInputs = inputsEl.filter((input) => input.checked).map((input) => question.tracks[input.value]);
+    state.setAnswer({
+      correct: selectedInputs.every((input) => input.genre === question.genre),
+      time: Math.round((new Date() - timeStart) / 1000)
+    });
+    resetForm();
+  };
+
+  toMainScreenEl.onclick = (evt) => {
+    evt.preventDefault();
+    state.renderScreen(`welcome`);
+    resetForm();
+  };
+
+  return screenEl;
 };
-
-formEl.onsubmit = (evt) => {
-  evt.preventDefault();
-  changeScreen(screenGameArtist);
-  resetForm();
-};
-
-toMainScreenEl.onclick = (evt) => {
-  evt.preventDefault();
-  changeScreen(screenWelcome);
-  resetForm();
-};
-
-
-export default screenEl;
