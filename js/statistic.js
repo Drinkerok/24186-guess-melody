@@ -5,8 +5,6 @@ const ERROR_CODE = -1;
 
 
 export default(playerResult, statistics) => {
-  const newStatistics = statistics.slice();
-
   if (playerResult.time === 0) {
     return `Время вышло! Вы не успели отгадать все мелодии`;
   }
@@ -18,6 +16,7 @@ export default(playerResult, statistics) => {
     return ERROR_CODE;
   }
 
+  const newStatistics = statistics.slice();
   newStatistics.push(playerResult.score);
   newStatistics.sort((a, b) => b - a);
 

@@ -1,7 +1,7 @@
 const QUESTIONS_COUNT = 10;
 
 
-export const questionGenre = {
+const questionGenre = {
   type: `genre`,
   genre: `Jazz`,
   tracks: [
@@ -24,7 +24,7 @@ export const questionGenre = {
   ],
 };
 
-export const questionArtist = {
+const questionArtist = {
   type: `artist`,
   track: {
     src: `https://www.youtube.com/audiolibrary_download?vid=91624fdc22fc54ed`,

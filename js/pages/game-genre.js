@@ -2,31 +2,30 @@
 
 import {getElementFromTemplate} from './../utils';
 import renderHeader from './header';
-
-const renderTracks = (tracks) => {
-  return tracks.map((track, i) => `
-    <div class="track">
-      <button class="track__button track__button--play" type="button"></button>
-      <div class="track__status">
-        <audio src="${track.src}"></audio>
-      </div>
-      <div class="game__answer">
-        <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
-        <label class="game__check" for="answer-${i}">Отметить</label>
-      </div>
-    </div>`)
-    .join(``);
-};
+import screenWelcome from './welcome';
 
 
-const screenTemplate = (data) => getElementFromTemplate(`
+const getScreenTemplate = (data) => getElementFromTemplate(`
   <section class="game game--genre">
-    ${renderHeader(data.game)}
+    ${renderHeader(data.state)}
 
     <section class="game__screen">
       <h2 class="game__title">Выберите ${data.question.genre} треки</h2>
       <form class="game__tracks">
-        ${renderTracks(data.question.tracks)}
+  ${((tracks) => {
+    return tracks.map((track, i) => `
+      <div class="track">
+        <button class="track__button track__button--play" type="button"></button>
+        <div class="track__status">
+          <audio src="${track.src}"></audio>
+        </div>
+        <div class="game__answer">
+          <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
+          <label class="game__check" for="answer-${i}">Отметить</label>
+        </div>
+      </div>`)
+      .join(``);
+  })(data.question.tracks)}
         <button class="game__submit button" type="submit">Ответить</button>
       </form>
     </section>
@@ -34,9 +33,9 @@ const screenTemplate = (data) => getElementFromTemplate(`
 `);
 
 
-export default (state, question) => {
-  const screenEl = screenTemplate({
-    game: state.game,
+export default (game, question) => {
+  const screenEl = getScreenTemplate({
+    state: game.state,
     question,
   });
   const timeStart = new Date();
@@ -60,7 +59,7 @@ export default (state, question) => {
   formEl.onsubmit = (evt) => {
     evt.preventDefault();
     const selectedInputs = inputsEl.filter((input) => input.checked).map((input) => question.tracks[input.value]);
-    state.setAnswer({
+    game.setAnswer({
       correct: selectedInputs.every((input) => input.genre === question.genre),
       time: Math.round((new Date() - timeStart) / 1000)
     });
@@ -69,7 +68,7 @@ export default (state, question) => {
 
   toMainScreenEl.onclick = (evt) => {
     evt.preventDefault();
-    state.renderScreen(`welcome`);
+    game.renderScreen(screenWelcome);
     resetForm();
   };
 

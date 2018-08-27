@@ -6,18 +6,6 @@ function getElementFromTemplate(template = ``) {
 }
 
 
-function changeScreen(page) {
-  const wrapper = document.querySelector(`section.main`);
-  wrapper.innerHTML = ``;
-  wrapper.appendChild(page);
-}
-
-
-function getRandomInteger(min = 0, max = 1) {
-  return Math.floor(min + Math.random() * (max + 1 - min));
-}
-
-
 function wordsDeclension(num, expressions) {
   let count = num % 100;
 
@@ -36,4 +24,4 @@ function wordsDeclension(num, expressions) {
 }
 
 
-export {getElementFromTemplate, changeScreen, getRandomInteger, wordsDeclension};
+export {getElementFromTemplate, wordsDeclension};

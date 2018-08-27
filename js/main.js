@@ -1,3 +1,4 @@
-import state from './state';
+import game from './game-controller';
+import screenWelcome from './pages/welcome';
 
-state.renderScreen(`welcome`);
+game.renderScreen(screenWelcome);

@@ -1,43 +1,56 @@
-import setPage from './page-controller';
-import {getRandomInteger} from './utils.js';
+import {InitialGame} from './constants';
+import questions from './data/questions';
 
-const INITIAL_STATE = {
-  lives: 3,
-  time: 5 * 60,
-  answers: [],
-  tries: 10,
-};
+import screenGameGenre from './pages/game-genre';
+import screenGameArtist from './pages/game-artist';
+import screenFailTries from './pages/fail-tries';
+import screenSuccess from './pages/result-success';
 
 
-const nextGamePages = [`game-genre`, `game-artist`];
+function changeScreen(page) {
+  const wrapper = document.querySelector(`section.main`);
+  wrapper.innerHTML = ``;
+  wrapper.appendChild(page);
+}
 
 
 export default {
-  game: Object.assign({}, INITIAL_STATE),
-  new() {
-    this.game = Object.assign({}, INITIAL_STATE);
+  state: {},
+  reset() {
+    this.state = {
+      answers: [],
+      lives: InitialGame.LIVES,
+      time: InitialGame.TIME,
+    };
+    this.questions = [];
+    this.questions = questions.slice();
   },
-  addAnswer(answer) {
-    this.game.answers.push(answer);
+  setAnswer(answer) {
+    this.state.answers.push(answer);
 
-    if (!answer.right) {
-      this.game.lives--;
+    if (!answer.correct) {
+      this.state.lives--;
     }
-    if (this.game.lives === 0) {
-      setPage(`fail`);
+    if (this.state.lives === 0) {
+      changeScreen(screenFailTries(this));
       return;
     }
 
-
-    this.tries--;
-
-    if (this.tries === 0) {
-      setPage(`success`);
-    } else {
-      setPage(nextGamePages[getRandomInteger(0, nextGamePages.length - 1)]);
-    }
+    this.nextQuestion();
   },
-  get data() {
-    return this.game;
+  renderScreen(screen) {
+    changeScreen(screen(this));
+  },
+  nextQuestion() {
+    const question = this.questions.pop();
+    let nextScreen;
+
+    if (question) {
+      nextScreen = question.type === `genre` ? screenGameGenre : screenGameArtist;
+    } else {
+      nextScreen = screenSuccess;
+    }
+
+    changeScreen(nextScreen(this, question));
   }
 };

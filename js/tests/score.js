@@ -1,6 +1,9 @@
 import {assert} from 'chai';
 import getScore from './../score';
-import {getRandomInteger} from './../utils';
+
+function getRandomInteger(min = 0, max = 1) {
+  return Math.floor(min + Math.random() * (max + 1 - min));
+}
 
 
 function getAnswers(length, rightAnswers, fastAnswers) {

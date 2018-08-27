@@ -2,7 +2,7 @@
 
 import {getElementFromTemplate, wordsDeclension} from './../utils';
 
-const screenTemplate = (data) => getElementFromTemplate(`
+const getScreenTemplate = (data) => getElementFromTemplate(`
   <section class="welcome">
     <div class="welcome__logo">
       <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83">
@@ -20,14 +20,14 @@ const screenTemplate = (data) => getElementFromTemplate(`
   </section>
 `);
 
-export default (state) => {
-  state.reset();
+export default (game) => {
+  game.reset();
 
-  const screenEl = screenTemplate(state.game);
+  const screenEl = getScreenTemplate(game.state);
 
   const buttonStart = screenEl.querySelector(`.welcome__button`);
   buttonStart.onclick = () => {
-    state.nextQuestion();
+    game.nextQuestion();
   };
 
   return screenEl;

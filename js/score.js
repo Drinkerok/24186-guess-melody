@@ -1,4 +1,4 @@
-import {ANSWER_FAST_TIME} from './variables';
+import {ANSWER_FAST_TIME} from './constants';
 
 const Score = {
   penalty: 2,

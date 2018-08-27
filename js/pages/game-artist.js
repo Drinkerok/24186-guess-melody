@@ -2,6 +2,7 @@
 
 import {getElementFromTemplate} from './../utils';
 import renderHeader from './header';
+import screenWelcome from './welcome';
 
 const renderArtists = (artists) => {
   return artists.map((artist, i) => `
@@ -15,7 +16,7 @@ const renderArtists = (artists) => {
     .join(``);
 };
 
-const screenTemplate = (data) => getElementFromTemplate(`
+const getScreenTemplate = (data) => getElementFromTemplate(`
   <section class="game game--artist">
     ${renderHeader(data.game)}
 
@@ -34,10 +35,10 @@ const screenTemplate = (data) => getElementFromTemplate(`
 `);
 
 
-export default (state, question) => {
+export default (game, question) => {
   const timeStart = new Date();
-  const screenEl = screenTemplate({
-    game: state.game,
+  const screenEl = getScreenTemplate({
+    game: game.state,
     question,
   });
 
@@ -46,7 +47,7 @@ export default (state, question) => {
   const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
   formEl.onchange = () => {
-    state.setAnswer({
+    game.setAnswer({
       correct: question.artists[formEl.answer.value].name === question.track.artist,
       time: Math.round((new Date() - timeStart) / 1000)
     });
@@ -55,7 +56,7 @@ export default (state, question) => {
 
   toMainScreenEl.onclick = (evt) => {
     evt.preventDefault();
-    state.renderScreen(`welcome`);
+    game.renderScreen(screenWelcome);
   };
 
   return screenEl;

@@ -1,4 +1,4 @@
-import {InitialGame} from './../variables';
+import {InitialGame} from './../constants';
 
 
 export default (data) => `
@@ -20,7 +20,7 @@ export default (data) => `
     </div>
 
     <div class="game__mistakes">
-      ${new Array(InitialGame.lives - data.lives)
+      ${new Array(InitialGame.LIVES - data.lives)
         .fill(`<div class="wrong"></div>`)
         .join(``)}
     </div>
