@@ -5,3 +5,6 @@ export const InitialGame = {
 
 
 export const statistics = [4, 5, 8, 10, 11];
+
+
+export const ANSWER_FAST_TIME = 30;
