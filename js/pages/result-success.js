@@ -11,7 +11,7 @@ const statistics = [4, 5, 8, 10, 11];
 
 
 const getScreenTemplate = (data) => {
-  const timeRemains = InitialGame.TIME - data.time;
+  const timeRemains = InitialGame.TIME - data.timer.time;
   const timeRemainsMinutes = ~~(timeRemains / 60);
   const timeRemainsSeconds = timeRemains - timeRemainsMinutes * 60;
 

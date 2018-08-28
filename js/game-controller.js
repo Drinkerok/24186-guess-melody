@@ -1,9 +1,11 @@
 import {InitialGame} from './constants';
 import questions from './data/questions';
+import getTimer from './timer';
 
 import screenGameGenre from './pages/game-genre';
 import screenGameArtist from './pages/game-artist';
 import screenFailTries from './pages/fail-tries';
+import screenFailTime from './pages/fail-time';
 import screenSuccess from './pages/result-success';
 
 
@@ -20,10 +22,18 @@ export default {
     this.state = {
       answers: [],
       lives: InitialGame.LIVES,
-      time: InitialGame.TIME,
+      timer: getTimer(InitialGame.TIME),
     };
     this.questions = [];
     this.questions = questions.slice();
+
+    const timer = setInterval(() => {
+      const {done} = this.state.timer.tick();
+      if (done) {
+        clearInterval(timer);
+        changeScreen(screenFailTime(this));
+      }
+    }, 1000)
   },
   setAnswer(answer) {
     this.state.answers.push(answer);
