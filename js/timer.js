@@ -5,7 +5,6 @@ export default (seconds) => ({
 
     return {
       done: this.time === 0,
-    }
+    };
   },
-})
-
+});

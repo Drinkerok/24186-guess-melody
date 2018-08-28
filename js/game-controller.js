@@ -33,7 +33,7 @@ export default {
         clearInterval(timer);
         changeScreen(screenFailTime(this));
       }
-    }, 1000)
+    }, 1000);
   },
   setAnswer(answer) {
     this.state.answers.push(answer);
