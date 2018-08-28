@@ -1,82 +1,63 @@
 // Игра на выбор исполнителя
 
-import {getElementFromTemplate, changeScreen, getRandomInteger} from './../utils.js';
-import screenSuccess from './result-success.js';
-import screenFailTime from './fail-time.js';
-import screenFailTries from './fail-tries.js';
-import screenWelcome from './welcome.js';
+import {getElementFromTemplate} from './../utils';
+import renderHeader from './header';
+import screenWelcome from './welcome';
 
-const screenEl = getElementFromTemplate(`<section class="game game--artist">
-    <header class="game__header">
-      <a class="game__back" href="#">
-        <span class="visually-hidden">Сыграть ещё раз</span>
-        <img class="game__logo" src="img/melody-logo-ginger.png" alt="Угадай мелодию">
-      </a>
+const renderArtists = (artists) => {
+  return artists.map((artist, i) => `
+    <div class="artist">
+      <input class="artist__input visually-hidden" type="radio" name="answer" value="${i}" id="answer-${i}">
+      <label class="artist__name" for="answer-${i}">
+        <img class="artist__picture" src="${artist.image}" alt="${artist.name}">
+        ${artist.name}
+      </label>
+    </div>`)
+    .join(``);
+};
 
-      <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-        <circle class="timer__line" cx="390" cy="390" r="370" style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" />
-      </svg>
-
-      <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer__mins">05</span>
-        <span class="timer__dots">:</span>
-        <span class="timer__secs">00</span>
-      </div>
-
-      <div class="game__mistakes">
-        <div class="wrong"></div>
-        <div class="wrong"></div>
-        <div class="wrong"></div>
-      </div>
-    </header>
+const getScreenTemplate = (data) => getElementFromTemplate(`
+  <section class="game game--artist">
+    ${renderHeader(data.game)}
 
     <section class="game__screen">
       <h2 class="game__title">Кто исполняет эту песню?</h2>
       <div class="game__track">
         <button class="track__button track__button--play" type="button"></button>
-        <audio></audio>
+        <audio src="${data.question.track.src}"></audio>
       </div>
 
       <form class="game__artist">
-        <div class="artist">
-          <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-1" id="answer-1">
-          <label class="artist__name" for="answer-1">
-            <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-            Пелагея
-          </label>
-        </div>
-
-        <div class="artist">
-          <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-2" id="answer-2">
-          <label class="artist__name" for="answer-2">
-            <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-
-        <div class="artist">
-          <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-3" id="answer-3">
-          <label class="artist__name" for="answer-3">
-            <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-            Lorde
-          </label>
-        </div>
+        ${renderArtists(data.question.artists)}
       </form>
     </section>
-  </section>`);
+  </section>
+`);
 
-const formEl = screenEl.querySelector(`.game__artist`);
-const nextPages = [screenSuccess, screenFailTime, screenFailTries];
-const toMainScreenEl = screenEl.querySelector(`.game__logo`);
 
-formEl.onchange = () => {
-  formEl.reset();
-  changeScreen(nextPages[getRandomInteger(0, nextPages.length - 1)]);
+export default (game, question) => {
+  const timeStart = new Date();
+  const screenEl = getScreenTemplate({
+    game: game.state,
+    question,
+  });
+
+
+  const formEl = screenEl.querySelector(`.game__artist`);
+  const toMainScreenEl = screenEl.querySelector(`.game__logo`);
+
+  formEl.onchange = () => {
+    game.setAnswer({
+      correct: question.artists[formEl.answer.value].name === question.track.artist,
+      time: Math.round((new Date() - timeStart) / 1000)
+    });
+    formEl.reset();
+  };
+
+  toMainScreenEl.onclick = (evt) => {
+    evt.preventDefault();
+    game.renderScreen(screenWelcome);
+  };
+
+  return screenEl;
 };
-
-toMainScreenEl.onclick = (evt) => {
-  evt.preventDefault();
-  changeScreen(screenWelcome);
-};
-
-export default screenEl;

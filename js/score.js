@@ -1,25 +1,29 @@
-const ANSWER_FAST_TIME = 30;
-const SCORE_PENALTY = 2;
-const SCORE_RIGHT = 1;
-const SCORE_FAST_RIGHT = 2;
+import {ANSWER_FAST_TIME} from './constants';
+
+const Score = {
+  penalty: 2,
+  right: 1,
+  fast: 2,
+};
 
 const ERROR_CODE = -1;
 
 
-export function getScore(answers) {
+export default(answers) => {
   if (answers.length < 10) {
     return ERROR_CODE;
   }
+
 
   let score = 0;
   let fails = 0;
 
   answers.forEach((answer) => {
-    if (answer.result) {
-      score += answer.time < ANSWER_FAST_TIME ? SCORE_FAST_RIGHT : SCORE_RIGHT;
+    if (answer.correct) {
+      score += answer.time < ANSWER_FAST_TIME ? Score.fast : Score.right;
     } else {
       fails++;
-      score -= SCORE_PENALTY;
+      score -= Score.penalty;
     }
   });
 
@@ -28,4 +32,4 @@ export function getScore(answers) {
   }
 
   return score;
-}
+};

@@ -1,18 +1,28 @@
 // Результат игры: проигрыш, время вышло
 
-import {getElementFromTemplate, changeScreen} from './../utils.js';
-import screenWelcome from './welcome.js';
+import {getElementFromTemplate} from './../utils';
+import getStatistic from './../statistic';
+import screenWelcome from './welcome';
 
-const screenEl = getElementFromTemplate(`<section class="result">
-    <div class="result__logo"><img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83"></div>
+const getScreenTemplate = (data) => getElementFromTemplate(`
+  <section class="result">
+    <div class="result__logo">
+      <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83">
+    </div>
     <h2 class="result__title">Увы и ах!</h2>
-    <p class="result__total result__total--fail">Время вышло! Вы не успели отгадать все мелодии</p>
+    <p class="result__total result__total--fail">${getStatistic(data.state)}</p>
     <button class="result__replay" type="button">Попробовать ещё раз</button>
-  </section>`);
+  </section>
+`);
 
-const againButtonEl = screenEl.querySelector(`.result__replay`);
-againButtonEl.onclick = () => {
-  changeScreen(screenWelcome);
+
+export default (game) => {
+  const screenEl = getScreenTemplate(game);
+
+  const againButtonEl = screenEl.querySelector(`.result__replay`);
+  againButtonEl.onclick = () => {
+    game.renderScreen(screenWelcome);
+  };
+
+  return screenEl;
 };
-
-export default screenEl;

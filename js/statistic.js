@@ -4,9 +4,7 @@ import {wordsDeclension} from './../js/utils';
 const ERROR_CODE = -1;
 
 
-export function getPlayerStatistic(statistics, playerResult) {
-  const newStatistics = statistics.slice();
-
+export default(playerResult, statistics) => {
   if (playerResult.time === 0) {
     return `Время вышло! Вы не успели отгадать все мелодии`;
   }
@@ -18,6 +16,7 @@ export function getPlayerStatistic(statistics, playerResult) {
     return ERROR_CODE;
   }
 
+  const newStatistics = statistics.slice();
   newStatistics.push(playerResult.score);
   newStatistics.sort((a, b) => b - a);
 
@@ -26,4 +25,4 @@ export function getPlayerStatistic(statistics, playerResult) {
   const playersWord = wordsDeclension(newStatistics.length, [`игрок`, `игрока`, `игроков`]);
 
   return `Вы заняли ${statisticPosition} место из ${newStatistics.length} ${playersWord}. Это лучше, чем у ${statisticPercents}% игроков`;
-}
+};

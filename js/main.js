@@ -1,5 +1,4 @@
-import screenWelcome from './pages/welcome.js';
-import {changeScreen} from './utils.js';
+import game from './game-controller';
+import screenWelcome from './pages/welcome';
 
-
-changeScreen(screenWelcome);
+game.renderScreen(screenWelcome);
