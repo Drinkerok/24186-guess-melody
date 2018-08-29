@@ -1,4 +1,4 @@
-import game from './game-controller';
+import controller from './game-controller';
 import screenWelcome from './pages/welcome';
 
-game.renderScreen(screenWelcome);
+controller.renderScreen(screenWelcome);

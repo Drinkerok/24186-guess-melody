@@ -1,5 +1,6 @@
 // Приветствие
 
+import controller from './../game-controller';
 import {getElementFromTemplate, wordsDeclension} from './../utils';
 import {InitialGame} from './../constants';
 
@@ -21,13 +22,13 @@ const getScreenTemplate = (data) => getElementFromTemplate(`
   </section>
 `);
 
-export default (game) => {
+export default () => {
   const screenEl = getScreenTemplate(InitialGame);
 
   const buttonStart = screenEl.querySelector(`.welcome__button`);
   buttonStart.onclick = () => {
-    game.reset();
-    game.nextQuestion();
+    controller.reset();
+    controller.nextQuestion();
   };
 
   return screenEl;

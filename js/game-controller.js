@@ -31,7 +31,7 @@ export default {
       const {done} = this.state.timer.tick();
       if (done) {
         clearInterval(timer);
-        changeScreen(screenFailTime(this));
+        changeScreen(screenFailTime());
       }
     }, 1000);
   },
@@ -42,14 +42,14 @@ export default {
       this.state.lives--;
     }
     if (this.state.lives === 0) {
-      changeScreen(screenFailTries(this));
+      changeScreen(screenFailTries());
       return;
     }
 
     this.nextQuestion();
   },
   renderScreen(screen) {
-    changeScreen(screen(this));
+    changeScreen(screen());
   },
   nextQuestion() {
     const question = this.questions.pop();
@@ -61,6 +61,6 @@ export default {
       nextScreen = screenSuccess;
     }
 
-    changeScreen(nextScreen(this, question));
+    changeScreen(nextScreen(question));
   }
 };
