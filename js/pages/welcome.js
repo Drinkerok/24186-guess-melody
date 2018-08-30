@@ -10,7 +10,7 @@ export default () => {
   welcomePage.onButtonStartClick = () => {
     controller.reset();
     controller.nextQuestion();
-  }
+  };
 
   return welcomePage.element;
-}
+};

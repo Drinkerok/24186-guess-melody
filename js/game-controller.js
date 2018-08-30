@@ -4,9 +4,13 @@ import getTimer from './timer';
 
 import screenGameGenre from './pages/game-genre';
 import screenGameArtist from './pages/game-artist';
-import screenFailTries from './pages/fail-tries';
-import screenFailTime from './pages/fail-time';
+import screenFail from './pages/result-fail';
 import screenSuccess from './pages/result-success';
+
+const LooseHeader = {
+  TIME: `Увы и ах!`,
+  TRIES: `Какая жалость!`,
+};
 
 
 function changeScreen(page) {
@@ -22,16 +26,18 @@ export default {
     this.state = {
       answers: [],
       lives: InitialGame.LIVES,
-      timer: getTimer(InitialGame.TIME),
+      time: InitialGame.TIME,
     };
     this.questions = [];
     this.questions = questions.slice();
 
-    const timer = setInterval(() => {
-      const {done} = this.state.timer.tick();
+    const timer = getTimer(InitialGame.TIME);
+    const timerId = setInterval(() => {
+      const {done} = timer.tick();
+      this.state.time = timer.time;
       if (done) {
-        clearInterval(timer);
-        changeScreen(screenFailTime());
+        clearInterval(timerId);
+        changeScreen(screenFail(LooseHeader.TIME));
       }
     }, 1000);
   },
@@ -42,7 +48,7 @@ export default {
       this.state.lives--;
     }
     if (this.state.lives === 0) {
-      changeScreen(screenFailTries());
+      changeScreen(screenFail(LooseHeader.TRIES));
       return;
     }
 

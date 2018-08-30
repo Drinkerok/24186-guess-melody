@@ -1,32 +1,32 @@
 import AbstractView from './abstract-view';
-import {InitialGame} from './../constants';
+import header from './../pages/header';
+
 
 export default class GenreView extends AbstractView {
-  constructor(task) {
+  constructor(question) {
     super();
-    this.task = task;
+    this.question = question;
   }
 
   get template() {
     return `
       <section class="game game--genre">
+
         <section class="game__screen">
-          <h2 class="game__title">Выберите ${this.task.genre} треки</h2>
+          <h2 class="game__title">Выберите ${this.question.genre} треки</h2>
           <form class="game__tracks">
-            ${((tracks) => {
-              return tracks.map((track, i) => `
-                <div class="track">
-                  <button class="track__button track__button--play" type="button"></button>
-                  <div class="track__status">
-                    <audio src="${track.src}"></audio>
-                  </div>
-                  <div class="game__answer">
-                    <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
-                    <label class="game__check" for="answer-${i}">Отметить</label>
-                  </div>
-                </div>`)
-                .join(``);
-            })(this.task.tracks)}
+            ${((tracks) => tracks.map((track, i) => `
+              <div class="track">
+                <button class="track__button track__button--play" type="button"></button>
+                <div class="track__status">
+                  <audio src="${track.src}"></audio>
+                </div>
+                <div class="game__answer">
+                  <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
+                  <label class="game__check" for="answer-${i}">Отметить</label>
+                </div>
+              </div>`)
+              .join(``))(this.question.tracks || [])}
             <button class="game__submit button" type="submit">Ответить</button>
           </form>
         </section>
@@ -34,7 +34,8 @@ export default class GenreView extends AbstractView {
   }
 
   bind() {
-    const formEl = this.element.querySelector(`.game__tracks`);
+    this._element.insertBefore(header(), this._element.children[0]);
+    const formEl = this._element.querySelector(`.game__tracks`);
     const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));
     const submitEl = formEl.querySelector(`.game__submit`);
 
@@ -46,14 +47,10 @@ export default class GenreView extends AbstractView {
 
     formEl.onsubmit = (evt) => {
       evt.preventDefault();
-      const selectedInputs = inputsEl.filter((input) => input.checked).map((input) => this.task.tracks[input.value]);
+      const selectedInputs = inputsEl.filter((input) => input.checked).map((input) => input.value);
       this.onFormSubmit(selectedInputs);
-      // controller.setAnswer({
-      //   correct: selectedInputs.every((input) => input.genre === question.genre),
-      //   time: Math.round((new Date() - timeStart) / 1000)
-      // });
     };
   }
 
-  onFormSubmit(answers) {}
+  onFormSubmit() {}
 }

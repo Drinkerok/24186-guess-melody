@@ -2,8 +2,10 @@ import {assert} from 'chai';
 import getPlayerStatistic from './../statistic';
 
 const statistics = [4, 5, 8, 10, 11];
-const PHRASE_LOSE_TIME = `Время вышло! Вы не успели отгадать все мелодии`;
-const PHRASE_LOSE_TRIES = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+const PhraseLose = {
+  TIME: `Время вышло! Вы не успели отгадать все мелодии`,
+  TRIES: `У вас закончились все попытки. Ничего, повезёт в следующий раз!`
+};
 
 describe(`Statistic`, () => {
   it(`game complete`, () => {
@@ -28,24 +30,24 @@ describe(`Statistic`, () => {
       score: 9,
       lives: 2,
       time: 0
-    }, statistics), PHRASE_LOSE_TIME);
+    }, statistics), PhraseLose.TIME);
     assert.equal(getPlayerStatistic({
       score: 11,
       lives: 1,
       time: 0
-    }, statistics), PHRASE_LOSE_TIME);
+    }, statistics), PhraseLose.TIME);
   });
   it(`game lose tries`, () => {
     assert.equal(getPlayerStatistic({
       score: 9,
       lives: 0,
       time: 11
-    }, statistics), PHRASE_LOSE_TRIES);
+    }, statistics), PhraseLose.TRIES);
     assert.equal(getPlayerStatistic({
       score: 11,
       lives: 0,
       time: 55
-    }, statistics), PHRASE_LOSE_TRIES);
+    }, statistics), PhraseLose.TRIES);
   });
   it(`incorrect data`, () => {
     assert.equal(getPlayerStatistic({

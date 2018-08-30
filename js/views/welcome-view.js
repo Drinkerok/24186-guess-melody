@@ -1,7 +1,7 @@
 import AbstractView from './abstract-view';
 import {wordsDeclension} from './../utils';
 
-export default class WelcomePage extends AbstractView {
+export default class WelcomeView extends AbstractView {
   constructor(time, lives) {
     super();
     this.time = time;
@@ -28,7 +28,7 @@ export default class WelcomePage extends AbstractView {
   }
 
   bind() {
-    const buttonStart = this.element.querySelector(`.welcome__button`);
+    const buttonStart = this._element.querySelector(`.welcome__button`);
 
     buttonStart.onclick = this.onButtonStartClick;
   }

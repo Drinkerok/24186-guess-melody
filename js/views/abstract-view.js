@@ -1,11 +1,3 @@
-function getElementFromTemplate(template = ``) {
-  const elem = document.createElement(`div`);
-  elem.innerHTML = template;
-
-  return elem.firstElementChild;
-}
-
-
 export default class AbstractView {
   constructor() {
     if (new.target === AbstractView) {
@@ -15,7 +7,7 @@ export default class AbstractView {
 
 
   get template() {
-    throw new Error(`Template is required`)
+    throw new Error(`Template is required`);
   }
 
   get element() {

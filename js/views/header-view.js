@@ -1,11 +1,10 @@
 import AbstractView from './abstract-view';
-import {InitialGame} from './../constants';
 
 export default class HeaderView extends AbstractView {
-  constructor(time, lives) {
+  constructor(timeRemains, livesRemains) {
     super();
-    this.time = time;
-    this.lives = lives;
+    this.timeRemains = timeRemains;
+    this.livesRemains = livesRemains;
   }
 
   get template() {
@@ -22,14 +21,14 @@ export default class HeaderView extends AbstractView {
         </svg>
 
         <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-          <span class="timer__mins">${~~(this.time / 60)}</span>
+          <span class="timer__mins">${~~(this.timeRemains / 60)}</span>
 
           <span class="timer__dots">:</span>
-          <span class="timer__secs">${this.time % 60}</span>
+          <span class="timer__secs">${this.timeRemains % 60}</span>
         </div>
 
         <div class="game__mistakes">
-          ${new Array(InitialGame.LIVES - this.lives)
+          ${new Array(this.livesRemains)
             .fill(`<div class="wrong"></div>`)
             .join(``)}
         </div>
@@ -37,7 +36,7 @@ export default class HeaderView extends AbstractView {
   }
 
   bind() {
-    const toMainScreenEl = this.element.querySelector(`.game__back`);
+    const toMainScreenEl = this._element.querySelector(`.game__back`);
 
     toMainScreenEl.onclick = this.onToMainScreenElClick;
   }
