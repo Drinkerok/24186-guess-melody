@@ -2,7 +2,7 @@ import AbstractView from './abstract-view';
 import {wordsDeclension} from './../utils';
 
 export default class WelcomeView extends AbstractView {
-  constructor(time, lives) {
+  constructor({time, lives}) {
     super();
     this.time = time;
     this.lives = lives;

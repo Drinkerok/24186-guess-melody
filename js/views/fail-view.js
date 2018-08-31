@@ -1,9 +1,14 @@
 import AbstractView from './abstract-view';
 
+const LooseTypeHeader = {
+  TIME: `Увы и ах!`,
+  LIVES: `Какая жалость!`,
+};
+
 export default class FailView extends AbstractView {
-  constructor(header, text) {
+  constructor({type, text}) {
     super();
-    this.header = header;
+    this.header = LooseTypeHeader[type];
     this.text = text;
   }
 

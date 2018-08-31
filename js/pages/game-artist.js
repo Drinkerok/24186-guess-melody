@@ -5,7 +5,10 @@ import controller from './../game-controller';
 
 
 export default (question) => {
-  const artistPage = new ArtistView(question);
+  const artistPage = new ArtistView({
+    state: controller.state,
+    question
+  });
 
   const timeStart = new Date();
 

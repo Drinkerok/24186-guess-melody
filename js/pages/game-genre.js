@@ -5,7 +5,10 @@ import controller from './../game-controller';
 
 
 export default (question) => {
-  const genrePage = new GenreView(question);
+  const genrePage = new GenreView({
+    state: controller.state,
+    question
+  });
 
   const timeStart = new Date();
 

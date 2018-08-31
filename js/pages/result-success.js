@@ -1,29 +1,24 @@
 // Результат игры: выигрыш
 
-import controller from './../game-controller';
 import SuccessView from './../views/success-view';
 import {InitialGame, ANSWER_FAST_TIME} from './../constants';
 import screenWelcome from './welcome';
 import getStatistic from './../statistic';
 import getScore from './../score';
+import {changeScreen} from './../utils';
 
 
-const statistics = [4, 5, 8, 10, 11];
+export default (state) => {
+  state.score = getScore(state.answers);
 
-
-export default () => {
-  controller.state.score = getScore(controller.state.answers);
-
-  const successPage = new SuccessView(
-      InitialGame.TIME - controller.state.time,
-      controller.state.score,
-      controller.state.answers.filter((answer) => answer.time < ANSWER_FAST_TIME).length,
-      InitialGame.LIVES - controller.state.lives,
-      getStatistic(controller.state, statistics)
-  );
-  successPage.onAgainButtonClick = () => {
-    controller.renderScreen(screenWelcome);
-  };
+  const successPage = new SuccessView({
+    timeSpent: InitialGame.TIME - state.time,
+    score: state.score,
+    fastAnswers: state.answers.filter((answer) => answer.time < ANSWER_FAST_TIME).length,
+    fails: InitialGame.LIVES - state.lives,
+    text: getStatistic(state)
+  });
+  successPage.onAgainButtonClick = () => changeScreen(screenWelcome());
 
   return successPage.element;
 };

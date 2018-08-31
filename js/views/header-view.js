@@ -1,10 +1,15 @@
 import AbstractView from './abstract-view';
 
 export default class HeaderView extends AbstractView {
-  constructor(timeRemains, livesRemains) {
+  constructor({timeRemains, livesSpent, timer}) {
     super();
-    this.timeRemains = timeRemains;
-    this.livesRemains = livesRemains;
+    this.minutesRemains = ~~(timeRemains / 60);
+    this.secondsRemains = timeRemains % 60;
+    if (this.secondsRemains < 10) {
+      this.secondsRemains = `0${this.secondsRemains}`;
+    }
+    this.livesSpent = livesSpent;
+    this.timer = timer;
   }
 
   get template() {
@@ -21,14 +26,14 @@ export default class HeaderView extends AbstractView {
         </svg>
 
         <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-          <span class="timer__mins">${~~(this.timeRemains / 60)}</span>
+          <span class="timer__mins">${this.minutesRemains}</span>
 
           <span class="timer__dots">:</span>
-          <span class="timer__secs">${this.timeRemains % 60}</span>
+          <span class="timer__secs">${this.secondsRemains}</span>
         </div>
 
         <div class="game__mistakes">
-          ${new Array(this.livesRemains)
+          ${new Array(this.livesSpent)
             .fill(`<div class="wrong"></div>`)
             .join(``)}
         </div>
@@ -36,9 +41,29 @@ export default class HeaderView extends AbstractView {
   }
 
   bind() {
+    const timerEl = this._element.querySelector(`.timer__value`);
+    const minutesEl = timerEl.querySelector(`.timer__mins`);
+    const secondsEl = timerEl.querySelector(`.timer__secs`);
+
+    setInterval(() => {
+      minutesEl.textContent = ~~(this.timer.time / 60);
+
+      let secondsValue = this.timer.time % 60;
+      if (secondsValue < 10) {
+        secondsValue = `0${secondsValue}`;
+      }
+      secondsEl.textContent = secondsValue;
+    }, 1000);
+
+
     const toMainScreenEl = this._element.querySelector(`.game__back`);
 
-    toMainScreenEl.onclick = this.onToMainScreenElClick;
+    const toMainScreenElhandler = (evt) => {
+      evt.preventDefault();
+      this.onToMainScreenElClick();
+    };
+
+    toMainScreenEl.onclick = toMainScreenElhandler;
   }
 
   onToMainScreenElClick() {}

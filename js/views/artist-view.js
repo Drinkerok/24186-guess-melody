@@ -2,8 +2,9 @@ import AbstractView from './abstract-view';
 import header from './../pages/header';
 
 export default class ArtistView extends AbstractView {
-  constructor(question) {
+  constructor({state, question}) {
     super();
+    this.state = state;
     this.question = question;
   }
 
@@ -25,15 +26,14 @@ export default class ArtistView extends AbstractView {
                   <img class="artist__picture" src="${artist.image}" alt="${artist.name}">
                   ${artist.name}
                 </label>
-              </div>`)
-              .join(``))(this.question.artists)}
+              </div>`))(this.question.artists)}
           </form>
         </section>
       </section>`;
   }
 
   bind() {
-    this._element.insertBefore(header(), this._element.children[0]);
+    this._element.insertBefore(header(this.state), this._element.children[0]);
     const formEl = this._element.querySelector(`.game__artist`);
 
     formEl.onchange = () => {

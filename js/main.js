@@ -1,4 +1,4 @@
-import controller from './game-controller';
-import screenWelcome from './pages/welcome';
+import {changeScreen} from './utils';
+import getScreenWelcome from './pages/welcome';
 
-controller.renderScreen(screenWelcome);
+changeScreen(getScreenWelcome());

@@ -1,17 +1,14 @@
 // Результат игры: проигрыш
 
 import FailView from './../views/fail-view';
-import controller from './../game-controller';
-import getStatistic from './../statistic';
 import screenWelcome from './welcome';
+import {changeScreen} from './../utils';
 
 
-export default (header) => {
-  const failPage = new FailView(header, getStatistic(controller.state));
+export default (data) => {
+  const failPage = new FailView(data);
 
-  failPage.onAgainButtonClick = () => {
-    controller.renderScreen(screenWelcome);
-  };
+  failPage.onAgainButtonClick = () => changeScreen(screenWelcome());
 
   return failPage.element;
 };

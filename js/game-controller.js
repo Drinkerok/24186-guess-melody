@@ -1,23 +1,13 @@
 import {InitialGame} from './constants';
+import {changeScreen} from './utils';
 import questions from './data/questions';
 import getTimer from './timer';
+import getStatistic from './statistic';
 
 import screenGameGenre from './pages/game-genre';
 import screenGameArtist from './pages/game-artist';
 import screenFail from './pages/result-fail';
 import screenSuccess from './pages/result-success';
-
-const LooseHeader = {
-  TIME: `Увы и ах!`,
-  TRIES: `Какая жалость!`,
-};
-
-
-function changeScreen(page) {
-  const wrapper = document.querySelector(`section.main`);
-  wrapper.innerHTML = ``;
-  wrapper.appendChild(page);
-}
 
 
 export default {
@@ -27,17 +17,20 @@ export default {
       answers: [],
       lives: InitialGame.LIVES,
       time: InitialGame.TIME,
+      timer: getTimer(InitialGame.TIME)
     };
     this.questions = [];
     this.questions = questions.slice();
 
-    const timer = getTimer(InitialGame.TIME);
     const timerId = setInterval(() => {
-      const {done} = timer.tick();
-      this.state.time = timer.time;
+      const {done} = this.state.timer.tick();
+      this.state.time = this.state.timer.time;
       if (done) {
         clearInterval(timerId);
-        changeScreen(screenFail(LooseHeader.TIME));
+        changeScreen(screenFail({
+          type: `TIME`,
+          text: getStatistic(this.state)
+        }));
       }
     }, 1000);
   },
@@ -48,14 +41,14 @@ export default {
       this.state.lives--;
     }
     if (this.state.lives === 0) {
-      changeScreen(screenFail(LooseHeader.TRIES));
+      changeScreen(screenFail({
+        type: `LIVES`,
+        text: getStatistic(this.state)
+      }));
       return;
     }
 
     this.nextQuestion();
-  },
-  renderScreen(screen) {
-    changeScreen(screen());
   },
   nextQuestion() {
     const question = this.questions.pop();
@@ -63,10 +56,9 @@ export default {
 
     if (question) {
       nextScreen = question.type === `genre` ? screenGameGenre : screenGameArtist;
+      changeScreen(nextScreen(question));
     } else {
-      nextScreen = screenSuccess;
+      changeScreen(screenSuccess(this.state));
     }
-
-    changeScreen(nextScreen(question));
   }
 };

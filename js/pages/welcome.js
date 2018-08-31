@@ -6,7 +6,10 @@ import {InitialGame} from './../constants';
 
 
 export default () => {
-  const welcomePage = new WelcomeView(InitialGame.TIME, InitialGame.LIVES);
+  const welcomePage = new WelcomeView({
+    time: InitialGame.TIME,
+    lives: InitialGame.LIVES
+  });
   welcomePage.onButtonStartClick = () => {
     controller.reset();
     controller.nextQuestion();
