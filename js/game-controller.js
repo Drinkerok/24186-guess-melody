@@ -2,13 +2,16 @@ import {InitialGame} from './constants';
 import {changeScreen} from './utils';
 import questions from './data/questions';
 import getTimer from './timer';
-import getStatistic from './statistic';
 
 import screenGameGenre from './pages/game-genre';
 import screenGameArtist from './pages/game-artist';
 import screenFail from './pages/result-fail';
 import screenSuccess from './pages/result-success';
 
+const LooseType = {
+  TIME: `TIME`,
+  TRIES: `TRIES`,
+};
 
 export default {
   state: {},
@@ -28,8 +31,8 @@ export default {
       if (done) {
         clearInterval(timerId);
         changeScreen(screenFail({
-          type: `TIME`,
-          text: getStatistic(this.state)
+          type: LooseType.TIME,
+          state: this.state
         }));
       }
     }, 1000);
@@ -42,8 +45,8 @@ export default {
     }
     if (this.state.lives === 0) {
       changeScreen(screenFail({
-        type: `LIVES`,
-        text: getStatistic(this.state)
+        type: LooseType.TRIES,
+        state: this.state
       }));
       return;
     }

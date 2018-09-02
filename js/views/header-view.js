@@ -45,7 +45,7 @@ export default class HeaderView extends AbstractView {
     const minutesEl = timerEl.querySelector(`.timer__mins`);
     const secondsEl = timerEl.querySelector(`.timer__secs`);
 
-    setInterval(() => {
+    this.timer.ontick = () => {
       minutesEl.textContent = ~~(this.timer.time / 60);
 
       let secondsValue = this.timer.time % 60;
@@ -53,7 +53,7 @@ export default class HeaderView extends AbstractView {
         secondsValue = `0${secondsValue}`;
       }
       secondsEl.textContent = secondsValue;
-    }, 1000);
+    };
 
 
     const toMainScreenEl = this._element.querySelector(`.game__back`);
