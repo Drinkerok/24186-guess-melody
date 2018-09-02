@@ -6,6 +6,13 @@ function getElementFromTemplate(template = ``) {
 }
 
 
+function changeScreen(page) {
+  const wrapper = document.querySelector(`section.main`);
+  wrapper.innerHTML = ``;
+  wrapper.appendChild(page);
+}
+
+
 function wordsDeclension(num, expressions) {
   let count = num % 100;
 
@@ -24,4 +31,4 @@ function wordsDeclension(num, expressions) {
 }
 
 
-export {getElementFromTemplate, wordsDeclension};
+export {getElementFromTemplate, changeScreen, wordsDeclension};

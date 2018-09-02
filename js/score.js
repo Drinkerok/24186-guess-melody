@@ -1,9 +1,9 @@
 import {ANSWER_FAST_TIME} from './constants';
 
 const Score = {
-  penalty: 2,
-  right: 1,
-  fast: 2,
+  PENALTY: 2,
+  RIGHT: 1,
+  FAST: 2,
 };
 
 const ERROR_CODE = -1;
@@ -20,10 +20,10 @@ export default(answers) => {
 
   answers.forEach((answer) => {
     if (answer.correct) {
-      score += answer.time < ANSWER_FAST_TIME ? Score.fast : Score.right;
+      score += answer.time < ANSWER_FAST_TIME ? Score.FAST : Score.RIGHT;
     } else {
       fails++;
-      score -= Score.penalty;
+      score -= Score.PENALTY;
     }
   });
 

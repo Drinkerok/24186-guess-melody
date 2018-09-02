@@ -1,29 +1,19 @@
+// Заголовок с жизнями и таймером
+
+import HeaderView from './../views/header-view';
+import screenWelcome from './welcome';
 import {InitialGame} from './../constants';
+import {changeScreen} from './../utils';
 
 
-export default (data) => `
-  <header class="game__header">
-    <a class="game__back" href="#">
-      <span class="visually-hidden">Сыграть ещё раз</span>
-      <img class="game__logo" src="img/melody-logo-ginger.png" alt="Угадай мелодию">
-    </a>
+export default (state) => {
+  const header = new HeaderView({
+    timeRemains: state.time,
+    livesSpent: InitialGame.LIVES - state.lives,
+    timer: state.timer
+  });
 
-    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-      <circle class="timer__line" cx="390" cy="390" r="370"
-              style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"/>
-    </svg>
+  header.onToMainScreenElClick = () => changeScreen(screenWelcome);
 
-    <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-      <span class="timer__mins">${~~(data.timer.time / 60)}</span>
-
-      <span class="timer__dots">:</span>
-      <span class="timer__secs">${data.timer.time % 60}</span>
-    </div>
-
-    <div class="game__mistakes">
-      ${new Array(InitialGame.LIVES - data.lives)
-        .fill(`<div class="wrong"></div>`)
-        .join(``)}
-    </div>
-  </header>
-`;
+  return header.element;
+};
