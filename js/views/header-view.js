@@ -1,5 +1,8 @@
 import AbstractView from './abstract-view';
 
+const TIMER_RADIUS = 370;
+const TIMER_CIRCUMFERENCE = Math.ceil(2 * Math.PI * TIMER_RADIUS);
+
 export default class HeaderView extends AbstractView {
   constructor({timeRemains, livesSpent, timer}) {
     super();
@@ -21,7 +24,7 @@ export default class HeaderView extends AbstractView {
         </a>
 
         <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-          <circle class="timer__line" cx="390" cy="390" r="370"
+          <circle class="timer__line" cx="390" cy="390" r="${TIMER_RADIUS}" stroke-dasharray="${TIMER_CIRCUMFERENCE}" stroke-dashoffset="${this.getDashoffset()}"
                   style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"/>
         </svg>
 
@@ -45,6 +48,8 @@ export default class HeaderView extends AbstractView {
     const minutesEl = timerEl.querySelector(`.timer__mins`);
     const secondsEl = timerEl.querySelector(`.timer__secs`);
 
+    const timerLineEl = this._element.querySelector(`.timer__line`);
+
     this.timer.ontick = () => {
       minutesEl.textContent = ~~(this.timer.time / 60);
 
@@ -53,6 +58,8 @@ export default class HeaderView extends AbstractView {
         secondsValue = `0${secondsValue}`;
       }
       secondsEl.textContent = secondsValue;
+
+      timerLineEl.setAttribute(`stroke-dashoffset`, this.getDashoffset());
     };
 
 
@@ -64,6 +71,10 @@ export default class HeaderView extends AbstractView {
     };
 
     toMainScreenEl.onclick = toMainScreenElhandler;
+  }
+
+  getDashoffset() {
+    return TIMER_CIRCUMFERENCE * this.timer.getCompletionLeft();
   }
 
   onToMainScreenElClick() {}
