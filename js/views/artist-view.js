@@ -39,6 +39,21 @@ export default class ArtistView extends AbstractView {
     formEl.onchange = () => {
       this.onFormSubmit(formEl.answer.value);
     };
+
+    const trackEl = this._element.querySelector(`.game__track`);
+    const buttonEl = trackEl.querySelector(`.track__button`);
+    const audioEl = trackEl.querySelector(`audio`);
+
+
+    buttonEl.onclick = () => {
+      if (buttonEl.classList.contains(`track__button--pause`)) {
+        buttonEl.classList.remove(`track__button--pause`);
+        audioEl.pause();
+      } else {
+        buttonEl.classList.add(`track__button--pause`);
+        audioEl.play();
+      }
+    };
   }
 
   onFormSubmit() {}

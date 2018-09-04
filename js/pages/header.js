@@ -13,7 +13,7 @@ export default (state) => {
     timer: state.timer
   });
 
-  header.onToMainScreenElClick = () => changeScreen(screenWelcome);
+  header.onToMainScreenElClick = () => changeScreen(screenWelcome());
 
   return header.element;
 };

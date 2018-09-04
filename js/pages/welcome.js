@@ -6,6 +6,7 @@ import {InitialGame} from './../constants';
 
 
 export default () => {
+  controller.removeTimer();
   const welcomePage = new WelcomeView({
     time: InitialGame.TIME,
     lives: InitialGame.LIVES
