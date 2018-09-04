@@ -11,8 +11,7 @@ export default () => {
     lives: InitialGame.LIVES
   });
   welcomePage.onButtonStartClick = () => {
-    controller.reset();
-    controller.nextQuestion();
+    controller.start();
   };
 
   return welcomePage.element;

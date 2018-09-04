@@ -8,5 +8,8 @@ export default (seconds) => ({
       done: this.time === 0,
     };
   },
+  getCompletionLeft() {
+    return 1 - this.time / seconds;
+  },
   ontick() {}
 });

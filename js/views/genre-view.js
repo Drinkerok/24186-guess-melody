@@ -10,14 +10,12 @@ export default class GenreView extends AbstractView {
   }
 
   get template() {
-    return `
-      <section class="game game--genre">
+    return `<section class="game game--genre">
 
         <section class="game__screen">
           <h2 class="game__title">Выберите ${this.question.genre} треки</h2>
           <form class="game__tracks">
-            ${((tracks) => tracks.map((track, i) => `
-              <div class="track">
+            ${this.question.tracks.map((track, i) => `<div class="track">
                 <button class="track__button track__button--play" type="button"></button>
                 <div class="track__status">
                   <audio src="${track.src}"></audio>
@@ -26,8 +24,7 @@ export default class GenreView extends AbstractView {
                   <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
                   <label class="game__check" for="answer-${i}">Отметить</label>
                 </div>
-              </div>`)
-              .join(``))(this.question.tracks || [])}
+              </div>`).join(``)}
             <button class="game__submit button" type="submit">Ответить</button>
           </form>
         </section>
@@ -51,6 +48,45 @@ export default class GenreView extends AbstractView {
       const selectedInputs = inputsEl.filter((input) => input.checked).map((input) => input.value);
       this.onFormSubmit(selectedInputs);
     };
+
+
+    let playingTrackEl = null;
+
+    const playTrack = (trackEl) => {
+      const trackButtonEl = trackEl.querySelector(`.track__button`);
+      const trackAudioEl = trackEl.querySelector(`audio`);
+
+      trackButtonEl.classList.add(`track__button--pause`);
+      trackAudioEl.play();
+      playingTrackEl = trackEl;
+    };
+    const pauseTrack = (trackEl) => {
+      const trackButtonEl = trackEl.querySelector(`.track__button`);
+      const trackAudioEl = trackEl.querySelector(`audio`);
+
+      trackButtonEl.classList.remove(`track__button--pause`);
+      trackAudioEl.pause();
+      playingTrackEl = null;
+    };
+
+    formEl.addEventListener(`click`, (evt) => {
+      if (!evt.target.classList.contains(`track__button`)) {
+        return;
+      }
+
+      const trackEl = evt.target.closest(`.track`);
+
+      if (!playingTrackEl) {
+        playTrack(trackEl);
+      } else {
+        if (playingTrackEl === trackEl) {
+          pauseTrack(trackEl);
+        } else {
+          pauseTrack(playingTrackEl);
+          playTrack(trackEl);
+        }
+      }
+    });
   }
 
   onFormSubmit() {}

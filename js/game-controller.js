@@ -15,7 +15,7 @@ const LooseType = {
 
 export default {
   state: {},
-  reset() {
+  start() {
     this.state = {
       answers: [],
       lives: InitialGame.LIVES,
@@ -25,17 +25,22 @@ export default {
     this.questions = [];
     this.questions = questions.slice();
 
-    const timerId = setInterval(() => {
+    this.timerId = setInterval(() => {
       const {done} = this.state.timer.tick();
       this.state.time = this.state.timer.time;
       if (done) {
-        clearInterval(timerId);
+        clearInterval(this.timerId);
         changeScreen(screenFail({
           type: LooseType.TIME,
           state: this.state
         }));
       }
     }, 1000);
+
+    this.nextQuestion();
+  },
+  stop() {
+    clearInterval(this.timerId);
   },
   setAnswer(answer) {
     this.state.answers.push(answer);
@@ -48,6 +53,7 @@ export default {
         type: LooseType.TRIES,
         state: this.state
       }));
+      this.stop();
       return;
     }
 
@@ -62,6 +68,7 @@ export default {
       changeScreen(nextScreen(question));
     } else {
       changeScreen(screenSuccess(this.state));
+      this.stop();
     }
   }
 };
