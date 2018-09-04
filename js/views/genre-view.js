@@ -10,14 +10,12 @@ export default class GenreView extends AbstractView {
   }
 
   get template() {
-    return `
-      <section class="game game--genre">
+    return `<section class="game game--genre">
 
         <section class="game__screen">
           <h2 class="game__title">Выберите ${this.question.genre} треки</h2>
           <form class="game__tracks">
-            ${this.question.tracks.map((track, i) => `
-              <div class="track">
+            ${this.question.tracks.map((track, i) => `<div class="track">
                 <button class="track__button track__button--play" type="button"></button>
                 <div class="track__status">
                   <audio src="${track.src}"></audio>
@@ -26,7 +24,7 @@ export default class GenreView extends AbstractView {
                   <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
                   <label class="game__check" for="answer-${i}">Отметить</label>
                 </div>
-              </div>`)}
+              </div>`).join(``)}
             <button class="game__submit button" type="submit">Ответить</button>
           </form>
         </section>
@@ -76,7 +74,7 @@ export default class GenreView extends AbstractView {
         return;
       }
 
-      const trackEl = evt.target.parentNode;
+      const trackEl = evt.target.closest(`.track`);
 
       if (!playingTrackEl) {
         playTrack(trackEl);

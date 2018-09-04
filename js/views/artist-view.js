@@ -19,14 +19,13 @@ export default class ArtistView extends AbstractView {
           </div>
 
           <form class="game__artist">
-            ${this.question.artists.map((artist, i) => `
-              <div class="artist">
+            ${this.question.artists.map((artist, i) => `<div class="artist">
                 <input class="artist__input visually-hidden" type="radio" name="answer" value="${i}" id="answer-${i}">
                 <label class="artist__name" for="answer-${i}">
                   <img class="artist__picture" src="${artist.image}" alt="${artist.name}">
                   ${artist.name}
                 </label>
-              </div>`)}
+              </div>`).join(``)}
           </form>
         </section>
       </section>`;

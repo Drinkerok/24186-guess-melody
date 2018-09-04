@@ -6,14 +6,12 @@ import {InitialGame} from './../constants';
 
 
 export default () => {
-  controller.removeTimer();
   const welcomePage = new WelcomeView({
     time: InitialGame.TIME,
     lives: InitialGame.LIVES
   });
   welcomePage.onButtonStartClick = () => {
-    controller.reset();
-    controller.nextQuestion();
+    controller.start();
   };
 
   return welcomePage.element;

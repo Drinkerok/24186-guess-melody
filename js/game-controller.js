@@ -15,7 +15,7 @@ const LooseType = {
 
 export default {
   state: {},
-  reset() {
+  start() {
     this.state = {
       answers: [],
       lives: InitialGame.LIVES,
@@ -36,11 +36,11 @@ export default {
         }));
       }
     }, 1000);
+
+    this.nextQuestion();
   },
-  removeTimer() {
-    if (this.timerId) {
-      clearInterval(this.timerId);
-    }
+  stop() {
+    clearInterval(this.timerId);
   },
   setAnswer(answer) {
     this.state.answers.push(answer);
@@ -53,7 +53,7 @@ export default {
         type: LooseType.TRIES,
         state: this.state
       }));
-      this.removeTimer();
+      this.stop();
       return;
     }
 
@@ -68,7 +68,7 @@ export default {
       changeScreen(nextScreen(question));
     } else {
       changeScreen(screenSuccess(this.state));
-      this.removeTimer();
+      this.stop();
     }
   }
 };
