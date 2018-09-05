@@ -4,23 +4,23 @@ import {wordsDeclension} from './../js/utils';
 const ERROR_CODE = -1;
 
 
-export default(playerResult, statistics = [4, 5, 8, 10, 11]) => {
-  if (playerResult.time === 0) {
+export default({time, lives, score}, statistics = [4, 5, 8, 10, 11]) => {
+  if (time === 0) {
     return `Время вышло! Вы не успели отгадать все мелодии`;
   }
-  if (playerResult.lives === 0) {
+  if (lives === 0) {
     return `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
   }
 
-  if (!playerResult.score || playerResult.score < 0) {
+  if (!score || score < 0) {
     return ERROR_CODE;
   }
 
   const newStatistics = statistics.slice();
-  newStatistics.push(playerResult.score);
+  newStatistics.push(score);
   newStatistics.sort((a, b) => b - a);
 
-  const statisticPosition = newStatistics.indexOf(playerResult.score) + 1;
+  const statisticPosition = newStatistics.indexOf(score) + 1;
   const statisticPercents = 100 - Math.round((statisticPosition / newStatistics.length * 100) * 100) / 100;
   const playersWord = wordsDeclension(newStatistics.length, [`игрок`, `игрока`, `игроков`]);
 

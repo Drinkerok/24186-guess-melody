@@ -1,4 +1,3 @@
-import {changeScreen} from './utils';
-import getScreenWelcome from './pages/welcome';
+import App from './application';
 
-changeScreen(getScreenWelcome());
+App.showWelcome();

@@ -2,10 +2,11 @@ import AbstractView from './abstract-view';
 import header from './../pages/header';
 
 export default class ArtistView extends AbstractView {
-  constructor({state, question}) {
+  constructor({state, question, timer}) {
     super();
     this.state = state;
     this.question = question;
+    this.timer = timer;
   }
 
   get template() {
@@ -32,7 +33,10 @@ export default class ArtistView extends AbstractView {
   }
 
   bind() {
-    this._element.insertBefore(header(this.state), this._element.children[0]);
+    this._element.insertBefore(header({
+      state: this.state,
+      timer: this.timer
+    }), this._element.children[0]);
     const formEl = this._element.querySelector(`.game__artist`);
 
     formEl.onchange = () => {
