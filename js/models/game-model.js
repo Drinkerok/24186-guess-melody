@@ -1,15 +1,13 @@
 import {InitialGame} from './../constants';
-import questions from './../data/questions';
 
 export default class GameModel {
-  reset() {
+  constructor(questions) {
+    this._questions = questions;
     this._state = {
       answers: [],
       lives: InitialGame.LIVES,
       time: InitialGame.TIME,
     };
-    this._questions = [];
-    this._questions = questions.slice();
   }
 
   setAnswer(answer) {

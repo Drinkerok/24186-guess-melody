@@ -1,17 +1,15 @@
 import App from './../application';
-import GameModel from './../models/game-model';
 import GenreView from './../views/genre-view';
 import ArtistView from './../views/artist-view';
 import getTimer from './../timer';
 import {changeScreen} from './../utils';
 
 export default class GamePresenter {
-  constructor() {
-    this._model = new GameModel();
+  constructor(model) {
+    this._model = model;
   }
 
   start() {
-    this._model.reset();
     this._timer = getTimer(this._model.time);
 
     this._timerId = setInterval(() => {

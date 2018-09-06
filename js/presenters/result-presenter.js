@@ -5,9 +5,10 @@ import getScore from './../score';
 import {InitialGame, ANSWER_FAST_TIME} from './../constants';
 import App from './../application';
 
-const LooseTypeHeader = {
-  TIME: `Увы и ах!`,
-  TRIES: `Какая жалость!`,
+
+const LooseType = {
+  TIME: `TIME`,
+  TRIES: `TRIES`,
 };
 
 
@@ -16,10 +17,9 @@ export default class ResultPresenter {
     const gameIsLoosed = (lives === 0 || time === 0);
 
     if (gameIsLoosed) {
-      const title = lives === 0 ? LooseTypeHeader.TRIES : LooseTypeHeader.TIME;
 
       this._page = new FailView({
-        title,
+        type: lives === 0 ? LooseType.TRIES : LooseType.TIME,
         message: getStatistic({time, lives})
       });
     } else {
@@ -37,7 +37,7 @@ export default class ResultPresenter {
     this._page.onAgainButtonClick = () => App.showWelcome();
   }
 
-  show() {
+  get element() {
     return this._page.element;
   }
 }
