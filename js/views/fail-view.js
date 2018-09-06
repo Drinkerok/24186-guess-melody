@@ -5,6 +5,7 @@ const LooseTypeHeader = {
   TRIES: `Какая жалость!`,
 };
 
+
 export default class FailView extends AbstractView {
   constructor({type, message}) {
     super();

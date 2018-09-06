@@ -1,22 +1,19 @@
 // Заголовок с жизнями и таймером
 
+import App from './../application';
 import HeaderView from './../views/header-view';
-import controller from './../game-controller';
-import screenWelcome from './welcome';
 import {InitialGame} from './../constants';
-import {changeScreen} from './../utils';
 
 
-export default (state) => {
+export default ({state, timer}) => {
   const header = new HeaderView({
     timeRemains: state.time,
     livesSpent: InitialGame.LIVES - state.lives,
-    timer: state.timer
+    timer
   });
 
   header.onToMainScreenElClick = () => {
-    controller.stop();
-    changeScreen(screenWelcome());
+    App.showWelcome();
   };
 
   return header.element;
