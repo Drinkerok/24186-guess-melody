@@ -33,4 +33,9 @@ export default class SuccessView extends AbstractView {
   }
 
   onAgainButtonClick() {}
+
+  changeResultText(text) {
+    const resultTextEl = this._element.querySelector(`.result__text`);
+    resultTextEl.textContent = text;
+  }
 }

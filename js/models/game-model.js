@@ -1,4 +1,5 @@
 import {InitialGame} from './../constants';
+import getScore from './../score';
 
 export default class GameModel {
   constructor(questions) {
@@ -24,6 +25,10 @@ export default class GameModel {
 
   getQuestion() {
     return this._questions.pop();
+  }
+
+  setScore() {
+    this._state.score = getScore(this._state.answers);
   }
 
 

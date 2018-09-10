@@ -4,7 +4,6 @@ import WelcomePresenter from './presenters/welcome-presenter';
 import GamePresenter from './presenters/game-presenter';
 import GameModel from './models/game-model';
 import ResultPresenter from './presenters/result-presenter';
-// import questions from './data/questions';
 
 import Loader from './loader';
 

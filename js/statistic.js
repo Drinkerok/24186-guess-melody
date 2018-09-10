@@ -4,7 +4,7 @@ import {wordsDeclension} from './../js/utils';
 const ERROR_CODE = -1;
 
 
-export default({time, lives, score}, statistics = [4, 5, 8, 10, 11]) => {
+export default({time, lives, score}, statistics) => {
   if (time === 0) {
     return `Время вышло! Вы не успели отгадать все мелодии`;
   }

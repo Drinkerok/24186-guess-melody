@@ -54,8 +54,6 @@ export default class GenreView extends AbstractView {
     };
 
 
-    let playingTrackEl = null;
-
     const playTrack = (trackEl) => {
       const trackButtonEl = trackEl.querySelector(`.track__button`);
       const trackAudioEl = trackEl.querySelector(`audio`);
@@ -72,6 +70,9 @@ export default class GenreView extends AbstractView {
       trackAudioEl.pause();
       playingTrackEl = null;
     };
+
+    let playingTrackEl = this._element.querySelector(`.track`);
+    playTrack(playingTrackEl);
 
     formEl.addEventListener(`click`, (evt) => {
       if (!evt.target.classList.contains(`track__button`)) {
