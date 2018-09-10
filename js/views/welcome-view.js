@@ -37,7 +37,7 @@ export default class WelcomeView extends AbstractView {
   onButtonStartClick() {}
 
   onReady() {
-    const loadingEl = this.element.querySelector(`.welcome__loading`);
+    const loadingEl = this._element.querySelector(`.welcome__loading`);
     loadingEl.parentNode.removeChild(loadingEl);
 
     const buttonStart = this._element.querySelector(`.welcome__button`);

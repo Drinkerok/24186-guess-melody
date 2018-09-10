@@ -47,6 +47,7 @@ export default class GamePresenter {
       }
     } else {
       this.stop();
+      this._model.setScore();
       App.showResult(this._model.state);
     }
   }

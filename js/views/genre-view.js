@@ -16,7 +16,7 @@ export default class GenreView extends AbstractView {
         <section class="game__screen">
           <h2 class="game__title">${this.task.question}</h2>
           <form class="game__tracks">
-            ${this.task.answers.map((answer, i) => `<div class="track">
+            ${this.task.answers.map((answer, i) => `<div class="track ${answer.genre === this.task.genre}">
                 <button class="track__button track__button--play" type="button"></button>
                 <div class="track__status">
                   <audio src="${answer.src}"></audio>

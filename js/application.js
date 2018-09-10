@@ -30,5 +30,9 @@ export default class Application {
   static showResult(state) {
     const result = new ResultPresenter(state);
     changeScreen(result.element);
+    Loader.saveResult(state)
+      .then(() => Loader.loadStatistics())
+      .then((statistics) => statistics.map((item) => item.score))
+      .then((statistics) => result.renderStatistic(statistics));
   }
 }
