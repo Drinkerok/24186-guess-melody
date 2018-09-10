@@ -15,12 +15,12 @@ export default class ArtistView extends AbstractView {
         <section class="game__screen">
           <h2 class="game__title">${this.task.question}</h2>
           <div class="game__track">
-            <button class="track__button track__button--play" type="button"></button>
+            <button class="track__button track__button--pause" type="button"></button>
             <audio src="${this.task.src}"></audio>
           </div>
 
           <form class="game__artist">
-            ${this.task.answers.map((answer, i) => `<div class="artist ${answer.isCorrect}">
+            ${this.task.answers.map((answer, i) => `<div class="artist">
                 <input class="artist__input visually-hidden" type="radio" name="answer" value="${i}" id="answer-${i}">
                 <label class="artist__name" for="answer-${i}">
                   <img class="artist__picture" src="${answer.image.url}" alt="${answer.title}">
@@ -51,12 +51,15 @@ export default class ArtistView extends AbstractView {
     buttonEl.onclick = () => {
       if (buttonEl.classList.contains(`track__button--pause`)) {
         buttonEl.classList.remove(`track__button--pause`);
+        buttonEl.classList.add(`track__button--play`);
         audioEl.pause();
       } else {
         buttonEl.classList.add(`track__button--pause`);
+        buttonEl.classList.remove(`track__button--play`);
         audioEl.play();
       }
     };
+    audioEl.play();
   }
 
   onFormSubmit() {}

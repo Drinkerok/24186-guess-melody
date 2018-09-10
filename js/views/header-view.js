@@ -1,5 +1,6 @@
 import AbstractView from './abstract-view';
 
+const ALARM_TIME = 30;
 const TIMER_RADIUS = 370;
 const TIMER_CIRCUMFERENCE = Math.ceil(2 * Math.PI * TIMER_RADIUS);
 
@@ -28,7 +29,7 @@ export default class HeaderView extends AbstractView {
                   style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"/>
         </svg>
 
-        <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
+        <div class="timer__value ${this.timer.time < 30 ? `timer__value--ends` : ``}" xmlns="http://www.w3.org/1999/xhtml">
           <span class="timer__mins">${this.minutesRemains}</span>
 
           <span class="timer__dots">:</span>
@@ -51,6 +52,9 @@ export default class HeaderView extends AbstractView {
     const timerLineEl = this._element.querySelector(`.timer__line`);
 
     this.timer.ontick = () => {
+      if (this.timer.time < ALARM_TIME && !timerEl.classList.contains(`timer__value--ends`)) {
+        timerEl.classList.add(`timer__value--ends`);
+      }
       minutesEl.textContent = ~~(this.timer.time / 60);
 
       let secondsValue = this.timer.time % 60;

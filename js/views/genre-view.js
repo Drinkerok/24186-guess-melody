@@ -16,7 +16,7 @@ export default class GenreView extends AbstractView {
         <section class="game__screen">
           <h2 class="game__title">${this.task.question}</h2>
           <form class="game__tracks">
-            ${this.task.answers.map((answer, i) => `<div class="track ${answer.genre === this.task.genre}">
+            ${this.task.answers.map((answer, i) => `<div class="track">
                 <button class="track__button track__button--play" type="button"></button>
                 <div class="track__status">
                   <audio src="${answer.src}"></audio>
@@ -54,8 +54,6 @@ export default class GenreView extends AbstractView {
     };
 
 
-    let playingTrackEl = null;
-
     const playTrack = (trackEl) => {
       const trackButtonEl = trackEl.querySelector(`.track__button`);
       const trackAudioEl = trackEl.querySelector(`audio`);
@@ -72,6 +70,9 @@ export default class GenreView extends AbstractView {
       trackAudioEl.pause();
       playingTrackEl = null;
     };
+
+    let playingTrackEl = this._element.querySelector(`.track`);
+    playTrack(playingTrackEl);
 
     formEl.addEventListener(`click`, (evt) => {
       if (!evt.target.classList.contains(`track__button`)) {

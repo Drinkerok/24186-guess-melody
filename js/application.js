@@ -4,7 +4,6 @@ import WelcomePresenter from './presenters/welcome-presenter';
 import GamePresenter from './presenters/game-presenter';
 import GameModel from './models/game-model';
 import ResultPresenter from './presenters/result-presenter';
-// import questions from './data/questions';
 
 import Loader from './loader';
 
@@ -30,9 +29,5 @@ export default class Application {
   static showResult(state) {
     const result = new ResultPresenter(state);
     changeScreen(result.element);
-    Loader.saveResult(state)
-      .then(() => Loader.loadStatistics())
-      .then((statistics) => statistics.map((item) => item.score))
-      .then((statistics) => result.renderStatistic(statistics));
   }
 }

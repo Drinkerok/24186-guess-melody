@@ -3,6 +3,7 @@ import SuccessView from './../views/success-view';
 import getStatistic from './../statistic';
 import {InitialGame, ANSWER_FAST_TIME} from './../constants';
 import App from './../application';
+import Loader from './../loader';
 
 
 const LooseType = {
@@ -35,6 +36,15 @@ export default class ResultPresenter {
         // text: getStatistic({time, lives, score})
         text: `Статистика загружается...`
       });
+
+      Loader.saveResult({
+        lives: this.lives,
+        time: this.time,
+        answers: this.answers,
+        score: this.score,
+      }).then(() => Loader.loadStatistics())
+        .then((statistics) => statistics.map((item) => item.score))
+        .then((statistics) => this.renderStatistic(statistics));
     }
 
     this._page.onAgainButtonClick = () => App.showWelcome();
