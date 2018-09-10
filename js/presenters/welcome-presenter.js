@@ -17,4 +17,8 @@ export default class WelcomePresenter {
   get element() {
     return this._page.element;
   }
+
+  onLoad() {
+    this._page.onReady();
+  }
 }

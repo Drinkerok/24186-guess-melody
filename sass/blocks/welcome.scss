@@ -43,6 +43,10 @@
   &:active {
     transform: scale(1.04);
   }
+
+  &--hidden {
+    display: none;
+  }
 }
 
 .welcome__rules-title {

@@ -36,9 +36,10 @@ export default class GamePresenter {
       App.showResult(this._model.state);
       return;
     }
-    const question = this._model.question;
+    const question = this._model.getQuestion();
 
     if (question) {
+      this._questionTime = new Date();
       if (question.type === `genre`) {
         this.showGenreQuestion(question);
       } else {
@@ -53,14 +54,14 @@ export default class GamePresenter {
   showGenreQuestion(question) {
     const genrePage = new GenreView({
       state: this._model.state,
-      question,
+      task: question,
       timer: this._timer
     });
 
     genrePage.onFormSubmit = (answers) => {
       this._model.setAnswer({
-        correct: answers.map((value) => question.tracks[value]).every((input) => input.genre === question.genre),
-        time: 40
+        correct: answers.map((value) => question.answers[value]).every((input) => input.genre === question.genre),
+        time: this.getQuestionTime(),
       });
 
       this.showQuestion();
@@ -72,19 +73,23 @@ export default class GamePresenter {
   showArtistQuestion(question) {
     const artistPage = new ArtistView({
       state: this._model.state,
-      question,
+      task: question,
       timer: this._timer
     });
 
     artistPage.onFormSubmit = (answer) => {
       this._model.setAnswer({
-        correct: question.artists[answer].name === question.track.artist,
-        time: 40
+        correct: question.answers[answer].isCorrect,
+        time: this.getQuestionTime(),
       });
 
       this.showQuestion();
     };
 
     changeScreen(artistPage.element);
+  }
+
+  getQuestionTime() {
+    return (new Date() - this._questionTime) / 1000;
   }
 }

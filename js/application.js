@@ -4,13 +4,21 @@ import WelcomePresenter from './presenters/welcome-presenter';
 import GamePresenter from './presenters/game-presenter';
 import GameModel from './models/game-model';
 import ResultPresenter from './presenters/result-presenter';
-import questions from './data/questions';
+// import questions from './data/questions';
 
-const welcome = new WelcomePresenter();
+import Loader from './loader';
+
+let questions = [];
 
 export default class Application {
   static showWelcome() {
+    const welcome = new WelcomePresenter();
     changeScreen(welcome.element);
+    Loader.loadTasks()
+      .then((data) => {
+        questions = data;
+      })
+      .then(() => welcome.onLoad());
   }
 
   static startGame() {

@@ -22,16 +22,16 @@ export default class GameModel {
     return this._state.lives === 0;
   }
 
+  getQuestion() {
+    return this._questions.pop();
+  }
+
 
   get state() {
     return this._state;
   }
   get time() {
     return this._state.time;
-  }
-
-  get question() {
-    return this._questions.pop();
   }
 
   set time(newTime) {

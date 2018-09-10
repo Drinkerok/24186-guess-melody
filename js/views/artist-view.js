@@ -2,10 +2,10 @@ import AbstractView from './abstract-view';
 import header from './../pages/header';
 
 export default class ArtistView extends AbstractView {
-  constructor({state, question, timer}) {
+  constructor({state, task, timer}) {
     super();
     this.state = state;
-    this.question = question;
+    this.task = task;
     this.timer = timer;
   }
 
@@ -13,18 +13,18 @@ export default class ArtistView extends AbstractView {
     return `
       <section class="game game--artist">
         <section class="game__screen">
-          <h2 class="game__title">Кто исполняет эту песню?</h2>
+          <h2 class="game__title">${this.task.question}</h2>
           <div class="game__track">
             <button class="track__button track__button--play" type="button"></button>
-            <audio src="${this.question.track.src}"></audio>
+            <audio src="${this.task.src}"></audio>
           </div>
 
           <form class="game__artist">
-            ${this.question.artists.map((artist, i) => `<div class="artist">
+            ${this.task.answers.map((answer, i) => `<div class="artist">
                 <input class="artist__input visually-hidden" type="radio" name="answer" value="${i}" id="answer-${i}">
                 <label class="artist__name" for="answer-${i}">
-                  <img class="artist__picture" src="${artist.image}" alt="${artist.name}">
-                  ${artist.name}
+                  <img class="artist__picture" src="${answer.image.url}" alt="${answer.title}">
+                  ${answer.title}
                 </label>
               </div>`).join(``)}
           </form>

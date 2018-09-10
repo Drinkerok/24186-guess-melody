@@ -3,10 +3,10 @@ import header from './../pages/header';
 
 
 export default class GenreView extends AbstractView {
-  constructor({state, question, timer}) {
+  constructor({state, task, timer}) {
     super();
     this.state = state;
-    this.question = question;
+    this.task = task;
     this.timer = timer;
   }
 
@@ -14,12 +14,12 @@ export default class GenreView extends AbstractView {
     return `<section class="game game--genre">
 
         <section class="game__screen">
-          <h2 class="game__title">Выберите ${this.question.genre} треки</h2>
+          <h2 class="game__title">${this.task.question}</h2>
           <form class="game__tracks">
-            ${this.question.tracks.map((track, i) => `<div class="track">
+            ${this.task.answers.map((answer, i) => `<div class="track">
                 <button class="track__button track__button--play" type="button"></button>
                 <div class="track__status">
-                  <audio src="${track.src}"></audio>
+                  <audio src="${answer.src}"></audio>
                 </div>
                 <div class="game__answer">
                   <input class="game__input visually-hidden" type="checkbox" name="answer" value="${i}" id="answer-${i}">
