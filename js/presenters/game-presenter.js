@@ -54,13 +54,13 @@ export default class GamePresenter {
   showGenreQuestion(question) {
     const genrePage = new GenreView({
       state: this._model.state,
-      question,
+      task: question,
       timer: this._timer
     });
 
     genrePage.onFormSubmit = (answers) => {
       this._model.setAnswer({
-        correct: answers.map((value) => question.tracks[value]).every((input) => input.genre === question.genre),
+        correct: answers.map((value) => question.answers[value]).every((input) => input.genre === question.genre),
         time: this.getQuestionTime(),
       });
 
@@ -73,13 +73,13 @@ export default class GamePresenter {
   showArtistQuestion(question) {
     const artistPage = new ArtistView({
       state: this._model.state,
-      question,
+      task: question,
       timer: this._timer
     });
 
     artistPage.onFormSubmit = (answer) => {
       this._model.setAnswer({
-        correct: question.artists[answer].name === question.track.artist,
+        correct: question.answers[answer].isCorrect,
         time: this.getQuestionTime(),
       });
 

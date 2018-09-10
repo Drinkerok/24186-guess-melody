@@ -14,7 +14,8 @@ export default class WelcomeView extends AbstractView {
         <div class="welcome__logo">
           <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83">
         </div>
-        <button class="welcome__button">
+        <p class="welcome__loading">Загрузка...</p>
+        <button class="welcome__button welcome__button--hidden">
           <span class="visually-hidden">Начать игру</span>
         </button>
         <h2 class="welcome__rules-title">Правила игры</h2>
@@ -34,4 +35,12 @@ export default class WelcomeView extends AbstractView {
   }
 
   onButtonStartClick() {}
+
+  onReady() {
+    const loadingEl = this.element.querySelector(`.welcome__loading`);
+    loadingEl.parentNode.removeChild(loadingEl);
+
+    const buttonStart = this._element.querySelector(`.welcome__button`);
+    buttonStart.classList.remove(`welcome__button--hidden`);
+  }
 }
