@@ -7,10 +7,11 @@ const Score = {
 };
 
 const ERROR_CODE = -1;
+const ANSWERS_LENGTH = 10;
 
 
 export default(answers) => {
-  if (answers.length < 10) {
+  if (answers.length < ANSWERS_LENGTH) {
     return ERROR_CODE;
   }
 

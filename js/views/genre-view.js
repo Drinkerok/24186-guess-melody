@@ -38,18 +38,18 @@ export default class GenreView extends AbstractView {
       timer: this._timer
     }), this._element.children[0]);
     const formEl = this._element.querySelector(`.game__tracks`);
-    const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));
+    const inputEls = Array.from(formEl.querySelectorAll(`.game__input`));
     const submitEl = formEl.querySelector(`.game__submit`);
 
     submitEl.disabled = true;
 
     formEl.onchange = () => {
-      submitEl.disabled = !inputsEl.some((input) => input.checked);
+      submitEl.disabled = !inputEls.some((input) => input.checked);
     };
 
     formEl.onsubmit = (evt) => {
       evt.preventDefault();
-      const selectedInputs = inputsEl.filter((input) => input.checked).map((input) => input.value);
+      const selectedInputs = inputEls.filter((input) => input.checked).map((input) => input.value);
       this.onFormSubmit(selectedInputs);
     };
 

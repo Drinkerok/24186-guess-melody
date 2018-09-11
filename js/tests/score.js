@@ -7,32 +7,32 @@ function getRandomInteger(min = 0, max = 1) {
 
 
 function getAnswers(length, rightAnswers, fastAnswers) {
-  let arr = [];
+  const answers = [];
 
   for (let i = 0; i < length; i++) {
     if (rightAnswers > 0) {
       if (fastAnswers > 0) {
-        arr.push({
+        answers.push({
           correct: true,
           time: getRandomInteger(1, 29)
         });
         fastAnswers--;
       } else {
-        arr.push({
+        answers.push({
           correct: true,
           time: getRandomInteger(30, 60)
         });
       }
       rightAnswers--;
     } else {
-      arr.push({
+      answers.push({
         correct: false,
         time: getRandomInteger(1, 60)
       });
     }
   }
 
-  return arr;
+  return answers;
 }
 
 
