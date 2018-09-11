@@ -9,8 +9,8 @@ const LooseTypeHeader = {
 export default class FailView extends AbstractView {
   constructor({type, message}) {
     super();
-    this.title = LooseTypeHeader[type];
-    this.message = message;
+    this._title = LooseTypeHeader[type];
+    this._message = message;
   }
 
   get template() {
@@ -19,8 +19,8 @@ export default class FailView extends AbstractView {
         <div class="result__logo">
           <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83">
         </div>
-        <h2 class="result__title">${this.title}</h2>
-        <p class="result__total result__total--fail">${this.message}</p>
+        <h2 class="result__title">${this._title}</h2>
+        <p class="result__total result__total--fail">${this._message}</p>
         <button class="result__replay" type="button">Попробовать ещё раз</button>
       </section>`;
   }

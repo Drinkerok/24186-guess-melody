@@ -4,23 +4,23 @@ import header from './../pages/header';
 export default class ArtistView extends AbstractView {
   constructor({state, task, timer}) {
     super();
-    this.state = state;
-    this.task = task;
-    this.timer = timer;
+    this._state = state;
+    this._task = task;
+    this._timer = timer;
   }
 
   get template() {
     return `
       <section class="game game--artist">
         <section class="game__screen">
-          <h2 class="game__title">${this.task.question}</h2>
+          <h2 class="game__title">${this._task.question}</h2>
           <div class="game__track">
             <button class="track__button track__button--pause" type="button"></button>
-            <audio src="${this.task.src}"></audio>
+            <audio src="${this._task.src}"></audio>
           </div>
 
           <form class="game__artist">
-            ${this.task.answers.map((answer, i) => `<div class="artist">
+            ${this._task.answers.map((answer, i) => `<div class="artist">
                 <input class="artist__input visually-hidden" type="radio" name="answer" value="${i}" id="answer-${i}">
                 <label class="artist__name" for="answer-${i}">
                   <img class="artist__picture" src="${answer.image.url}" alt="${answer.title}">
@@ -34,8 +34,8 @@ export default class ArtistView extends AbstractView {
 
   bind() {
     this._element.insertBefore(header({
-      state: this.state,
-      timer: this.timer
+      state: this._state,
+      timer: this._timer
     }), this._element.children[0]);
     const formEl = this._element.querySelector(`.game__artist`);
 

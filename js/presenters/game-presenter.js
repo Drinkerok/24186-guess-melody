@@ -4,6 +4,12 @@ import ArtistView from './../views/artist-view';
 import getTimer from './../timer';
 import {changeScreen} from './../utils';
 
+const TIMER_TICK_PERIOD = 1000;
+const GameType = {
+  GENRE: `genre`,
+  ARTIST: `artist`,
+};
+
 export default class GamePresenter {
   constructor(model) {
     this._model = model;
@@ -19,7 +25,7 @@ export default class GamePresenter {
         this.stop();
         App.showResult(this._model.state);
       }
-    }, 1000);
+    }, TIMER_TICK_PERIOD);
 
     this.showQuestion();
   }
@@ -40,7 +46,7 @@ export default class GamePresenter {
 
     if (question) {
       this._questionTime = new Date();
-      if (question.type === `genre`) {
+      if (question.type === GameType.GENRE) {
         this.showGenreQuestion(question);
       } else {
         this.showArtistQuestion(question);

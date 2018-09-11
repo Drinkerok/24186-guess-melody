@@ -4,12 +4,12 @@ import {wordsDeclension} from './../utils';
 export default class SuccessView extends AbstractView {
   constructor({timeSpent, score, fastAnswers, fails, text}) {
     super();
-    this.timeSpentMinutes = ~~(timeSpent / 60);
-    this.timeSpentSeconds = timeSpent - this.timeSpentMinutes * 60;
-    this.score = score;
-    this.fastAnswers = fastAnswers;
-    this.fails = fails;
-    this.text = text;
+    this._timeSpentMinutes = ~~(timeSpent / 60);
+    this._timeSpentSeconds = timeSpent - this._timeSpentMinutes * 60;
+    this._score = score;
+    this._fastAnswers = fastAnswers;
+    this._fails = fails;
+    this._text = text;
   }
 
   get template() {
@@ -19,8 +19,8 @@ export default class SuccessView extends AbstractView {
           <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83">
         </div>
         <h2 class="result__title">Вы настоящий меломан!</h2>
-        <p class="result__total">За ${this.timeSpentMinutes} ${wordsDeclension(this.timeSpentMinutes, [`минуту`, `минуты`, `минут`])} и ${this.timeSpentSeconds} ${wordsDeclension(this.timeSpentSeconds, [`секунду`, `секунды`, `секунд`])} вы набрали ${this.score} ${wordsDeclension(this.score, [`балл`, `балла`, `баллов`])} (${this.fastAnswers} ${wordsDeclension(this.fastAnswers, [`быстрый`, `быстрых`, `быстрых`])}), совершив ${this.fails} ${wordsDeclension(this.fails, [`ошибку`, `ошибки`, `ошибок`])}</p>
-        <p class="result__text">${this.text}</p>
+        <p class="result__total">За ${this._timeSpentMinutes} ${wordsDeclension(this._timeSpentMinutes, [`минуту`, `минуты`, `минут`])} и ${this._timeSpentSeconds} ${wordsDeclension(this._timeSpentSeconds, [`секунду`, `секунды`, `секунд`])} вы набрали ${this._score} ${wordsDeclension(this._score, [`балл`, `балла`, `баллов`])} (${this._fastAnswers} ${wordsDeclension(this._fastAnswers, [`быстрый`, `быстрых`, `быстрых`])}), совершив ${this._fails} ${wordsDeclension(this._fails, [`ошибку`, `ошибки`, `ошибок`])}</p>
+        <p class="result__text">${this._text}</p>
         <button class="result__replay" type="button">Сыграть ещё раз</button>
       </section>`;
   }

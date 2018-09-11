@@ -5,18 +5,18 @@ import header from './../pages/header';
 export default class GenreView extends AbstractView {
   constructor({state, task, timer}) {
     super();
-    this.state = state;
-    this.task = task;
-    this.timer = timer;
+    this._state = state;
+    this._task = task;
+    this._timer = timer;
   }
 
   get template() {
     return `<section class="game game--genre">
 
         <section class="game__screen">
-          <h2 class="game__title">${this.task.question}</h2>
+          <h2 class="game__title">${this._task.question}</h2>
           <form class="game__tracks">
-            ${this.task.answers.map((answer, i) => `<div class="track">
+            ${this._task.answers.map((answer, i) => `<div class="track">
                 <button class="track__button track__button--play" type="button"></button>
                 <div class="track__status">
                   <audio src="${answer.src}"></audio>
@@ -34,8 +34,8 @@ export default class GenreView extends AbstractView {
 
   bind() {
     this._element.insertBefore(header({
-      state: this.state,
-      timer: this.timer
+      state: this._state,
+      timer: this._timer
     }), this._element.children[0]);
     const formEl = this._element.querySelector(`.game__tracks`);
     const inputsEl = Array.from(formEl.querySelectorAll(`.game__input`));

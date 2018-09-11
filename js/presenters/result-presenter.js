@@ -14,18 +14,20 @@ const LooseType = {
 
 export default class ResultPresenter {
   constructor({lives, time, answers, score}) {
-    this.lives = lives;
-    this.time = time;
-    this.answers = answers;
-    this.score = score;
+    this._lives = lives;
+    this._time = time;
+    this._answers = answers;
+    this._score = score;
 
     const gameIsLoosed = (lives === 0 || time === 0);
 
     if (gameIsLoosed) {
-
       this._page = new FailView({
-        type: lives === 0 ? LooseType.TRIES : LooseType.TIME,
-        message: getStatistic({time, lives})
+        type: this._lives === 0 ? LooseType.TRIES : LooseType.TIME,
+        message: getStatistic({
+          time: this._time,
+          lives: this._lives
+        })
       });
     } else {
       this._page = new SuccessView({
@@ -38,10 +40,10 @@ export default class ResultPresenter {
       });
 
       Loader.saveResult({
-        lives: this.lives,
-        time: this.time,
-        answers: this.answers,
-        score: this.score,
+        lives: this._lives,
+        time: this._time,
+        answers: this._answers,
+        score: this._score,
       }).then(() => Loader.loadStatistics())
         .then((statistics) => statistics.map((item) => item.score))
         .then((statistics) => this.renderStatistic(statistics));
@@ -52,9 +54,9 @@ export default class ResultPresenter {
 
   renderStatistic(statistics) {
     this._page.changeResultText(getStatistic({
-      time: this.time,
-      lives: this.lives,
-      score: this.score
+      time: this._time,
+      lives: this._lives,
+      score: this._score
     }, statistics));
   }
 
